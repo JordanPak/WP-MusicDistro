@@ -38,21 +38,33 @@ if(is_admin())
 
     
     
+    // Disable Post Archives & Redirect Download "Single" to Home URL
 	add_filter('edd_download_post_type_args', 'disable_archives');
 	add_action('template_redirect', 'download_redirect_post');
-	function disable_archives($download_args) {
-	  $download_args['has_archive'] = false;
-	  $download_args['rewrite'] = false;
-	  return $download_args;
-	}
 	
-	function download_redirect_post() {
-	  $queried_post_type = get_query_var('post_type');
-	  if (is_single() && 'download' == $queried_post_type) {
-		wp_redirect(home_url() , 301);
-		exit;
-	  }
+    /**
+     * Remove Download Archive and Rewrite
+     */ 
+    function disable_archives($download_args) {
+        $download_args['has_archive'] = false;
+        $download_args['rewrite'] = false;
+        return $download_args;
 	}
+    
+    /**
+     * Redirect Download Single to Home
+     */ 	
+	function download_redirect_post() {
+        $queried_post_type = get_query_var('post_type');
+        
+        if (is_single() && 'download' == $queried_post_type) {
+            wp_redirect(home_url() , 301);
+            exit;
+        }
+	
+    } // download_redirect_post()
+    
+    
 	
 	function remove_admin_stuff($translated_text, $untranslated_text, $domain) {
 	  if (get_current_post_type() !== 'download') {
