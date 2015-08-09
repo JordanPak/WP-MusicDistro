@@ -13,4 +13,8 @@ Author URI:  http://JordanPak.com/
 //  INCLUDES //
 //===========//
 
+// Admin
 require_once( 'includes/admin/musicdistro-admin.php' );
+
+// Settings
+require_once( 'includes/settings/musicdistro-archive-settings.php' );
