@@ -1,2 +1,2 @@
-# wp-music-distro
+# WP MusicDistro
 Sheet Music Distribution System for Bands
