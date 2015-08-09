@@ -140,24 +140,35 @@ if(is_admin())
     
 	
 	
+    // Not exactly sure what this does?
 	add_action('edd_download_file_table_row', 'output_nounce');
-	function output_nounce() {
-	  echo wp_nonce_field('metabox.php', 'edd_download_meta_box_nonce');
+	
+    function output_nounce() {
+        echo wp_nonce_field('metabox.php', 'edd_download_meta_box_nonce');
 	}
 	
 	function get_current_post_type() {
-	  global $post, $typenow, $current_screen;
-	  //we have a post so we can just get the post type from that
-	  if ($post && $post->post_type) return $post->post_type;
-	  //check the global $typenow - set in admin.php
-	  elseif ($typenow) return $typenow;
-	  //check the global $current_screen object - set in sceen.php
-	  elseif ($current_screen && $current_screen->post_type) return $current_screen->post_type;
-	  //lastly check the post_type querystring
-	  elseif (isset($_REQUEST['post_type'])) return sanitize_key($_REQUEST['post_type']);
-	  //we do not know the post type!
-	  return null;
-	}
+        
+        global $post, $typenow, $current_screen;
+        
+        // We have a post so we can just get the post type from that
+        if ($post && $post->post_type) return $post->post_type;
+        
+        // Check the global $typenow - set in admin.php
+        elseif ($typenow) return $typenow;
+        
+        // Check the global $current_screen object - set in sceen.php
+        elseif ($current_screen && $current_screen->post_type) return $current_screen->post_type;
+        
+        // Lastly check the post_type querystring
+        elseif (isset($_REQUEST['post_type'])) return sanitize_key($_REQUEST['post_type']);
+        
+        // We do not know the post type!
+        return null;
+        
+	} // get_current_post_type()
+    
+    
 	
 	add_action('admin_menu', 'edd_menu_items', 10);
 	function edd_menu_items() {
