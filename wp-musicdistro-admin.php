@@ -38,6 +38,7 @@ if(is_admin())
 
     
     
+    
     // Disable Post Archives & Redirect Download "Single" to Home URL
 	add_filter('edd_download_post_type_args', 'disable_archives');
 	add_action('template_redirect', 'download_redirect_post');
@@ -63,6 +64,7 @@ if(is_admin())
         }
 	
     } // download_redirect_post()
+    
     
     
 	
@@ -140,6 +142,7 @@ if(is_admin())
     
 	
 	
+    
     // Not exactly sure what this does?
 	add_action('edd_download_file_table_row', 'output_nounce');
 	
@@ -169,22 +172,39 @@ if(is_admin())
 	} // get_current_post_type()
     
     
+    
 	
+    // Admin Menu Modifications
 	add_action('admin_menu', 'edd_menu_items', 10);
-	function edd_menu_items() {
-	  global $edd_upgrades_screen;
-	  $edd_upgrades_screen = add_submenu_page(null, __('EDD Upgrades', 'edd') , __('EDD Upgrades', 'edd') , 'install_plugins', 'edd-upgrades', 'edd_upgrades_screen');
+	
+    /**
+     * Modify Admin Dashboard Menu for EDD
+     */ 
+    function edd_menu_items() {
+        global $edd_upgrades_screen;
+        $edd_upgrades_screen = add_submenu_page(null, __('EDD Upgrades', 'edd') , __('EDD Upgrades', 'edd') , 'install_plugins', 'edd-upgrades', 'edd_upgrades_screen');
 	}
 	
+    
+    
+
+    // Remove Download Columns
 	add_filter('edd_download_columns', 'remove_columns');
+    
+    /**
+     * Remove Admin Columns
+     */     
 	function remove_columns($columns) {
-	  unset($columns['price']);
-	  unset($columns['sales']);
-	  unset($columns['earnings']);
-	  unset($columns['shortcode']);
-	  return $columns;
+        unset($columns['price']);
+        unset($columns['sales']);
+        unset($columns['earnings']);
+        unset($columns['shortcode']);
+        
+        return $columns;
 	}
 	
+    
+    
 	remove_action('admin_menu', 'edd_add_options_link', 10);
 	
 	function pw_edd_product_labels($labels) {
