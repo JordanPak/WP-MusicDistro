@@ -18,7 +18,7 @@ function musicdistro_archive_shortcode( $atts ) {
     
     //-- ATTRIBUTES --//
 	$atts = shortcode_atts( array(
-        'size'      => 'med',
+        'band'      => 'marching-knights',
 	), $atts, 'musicdistro' );
 
     
@@ -26,10 +26,7 @@ function musicdistro_archive_shortcode( $atts ) {
     //-- SET VARS --//
     
     // Attributes
-    $button_size =      $atts['size'];
-    
-    // Attribute Helpers
-    $button_classes = '';
+    $band =      $atts['band'];
     
     // Output
     $output = '';
