@@ -174,9 +174,7 @@ if(is_admin())
     
     
 	
-    // Admin Menu Modifications
 	add_action('admin_menu', 'edd_menu_items', 10);
-	
     /**
      * Modify Admin Dashboard Menu for EDD
      */ 
@@ -188,9 +186,7 @@ if(is_admin())
     
     
 
-    // Remove Download Columns
 	add_filter('edd_download_columns', 'remove_columns');
-    
     /**
      * Remove Admin Columns
      */     
@@ -205,57 +201,90 @@ if(is_admin())
 	
     
     
+    
 	remove_action('admin_menu', 'edd_add_options_link', 10);
-	
+    /**
+     * Rename Menu Labels
+     */ 
 	function pw_edd_product_labels($labels) {
-	  $labels = array(
-		'singular' => __('Arrangement', 'your-domain') ,
-		'plural' => __('Arrangements', 'your-domain')
-	  );
-	  return $labels;
-	}
+        
+        $labels = array(
+            'singular' => __('Arrangement', 'your-domain') ,
+            'plural' => __('Arrangements', 'your-domain')
+        );
+        
+        return $labels;
 	
+    } // pw_edd_product_labels
+    
+    
+    
+    
 	add_filter('edd_default_downloads_name', 'pw_edd_product_labels');
-	
-	function edd_add_download_meta_boxes() {
+    /**
+     * Meta Boxes?
+     */ 	
+    function edd_add_download_meta_boxes() {
 	  
-	  $post_types = apply_filters('edd_download_metabox_post_types', array(
-		'download'
-	  ));
+        $post_types = apply_filters('edd_download_metabox_post_types', array(
+            'download'
+        ));
 	  
-	  foreach ($post_types as $post_type) {
-		/** Product Files (and bundled products) **/
-		add_meta_box('edd_product_files', sprintf(__('%1$s Files', 'edd') , edd_get_label_singular() , edd_get_label_plural()) , 'edd_render_files_meta_box', $post_type, 'normal', 'high');
-	  }
-	}
+        foreach ($post_types as $post_type) {
+            /** Product Files (and bundled products) **/
+            add_meta_box('edd_product_files', sprintf(__('%1$s Files', 'edd') , edd_get_label_singular() , edd_get_label_plural()) , 'edd_render_files_meta_box', $post_type, 'normal', 'high');
+        }
 	
+    } // edd_add_download_meta_boxes()
+	
+    
+    // Switch out metaboxes (titles?)
 	remove_action('add_meta_boxes', 'edd_add_download_meta_box');
 	add_action('add_meta_boxes', 'edd_add_download_meta_boxes');
 	
+    
+    
+    
+    // Add support for Title & Revisions
 	add_filter('edd_download_supports', 'edd_supports');
 	function edd_supports($supports) {
-	  return array(
-		'title',
-		'revisions'
-	  );
+        return array(
+            'title',
+            'revisions'
+        );
 	}
 	
-	remove_action('edd_meta_box_files_fields', 'edd_render_product_type_field', 10);
 	
-	add_action('do_meta_boxes', 'change_meta_box_titles');
-	function change_meta_box_titles() {
-	  global $wp_meta_boxes;
-	  $wp_meta_boxes['download']['side']['core']['download_categorydiv']['title'] = 'Band & Instrument(s)';
-	  $wp_meta_boxes['download']['side']['core']['tagsdiv-download_tag']['title'] = 'Arrangement Type';
+    remove_action('edd_meta_box_files_fields', 'edd_render_product_type_field', 10);
+	
+	
+    
+    
+    add_action('do_meta_boxes', 'change_meta_box_titles');
+    /**
+     * Modify Meta Box Titles
+     */    
+    function change_meta_box_titles() {
+        global $wp_meta_boxes;
+        $wp_meta_boxes['download']['side']['core']['download_categorydiv']['title'] = 'Band & Instrument(s)';
+        $wp_meta_boxes['download']['side']['core']['tagsdiv-download_tag']['title'] = 'Arrangement Type';
 	}
 	
+    
+    
+    
 	add_action('admin_head', 'edd_css');
+    /**
+     * Admin CSS Modification
+     */  
 	function edd_css() {
-	  if (get_current_post_type() !== 'download') {
-		return;
-	  }
-	  echo "<style>.nosubsub h2{ display: none !important; } .wrap { margin: 0 0 0 20 !important; } </style>";
-	}
+        if (get_current_post_type() !== 'download') {
+            return;
+        }
+        
+        echo "<style>.nosubsub h2{ display: none !important; } .wrap { margin: 0 0 0 20 !important; } </style>";
+	
+    } // edd_css()
 
 
 } // EndIf
