@@ -7,23 +7,37 @@
 */
 
 
+//-- If Admin --//
 if(is_admin())
 {
-
+    
+    // Run edd_loaded() after plugin is loaded
 	add_action('plugins_loaded', 'edd_loaded');
-	function edd_loaded() {
-	  add_filter('gettext', 'remove_admin_stuff', 20, 3);
-	  if (!defined('EDD_DISABLE_ARCHIVE')) {
-		define('EDD_DISABLE_ARCHIVE', false);
-	  }
-	  if (!defined('EDD_DISABLE_REWRITE')) {
-		define('EDD_DISABLE_REWRITE', false);
-	  }
-	  if (!defined('EDD_SLUG')) {
-		define('EDD_SLUG', 'Arrangements');
-	  }
-	}
+    
+    /**
+     * Post-Load Modifications
+     */ 
+    function edd_loaded() {
+        
+        add_filter('gettext', 'remove_admin_stuff', 20, 3);
+        
+        if (!defined('EDD_DISABLE_ARCHIVE')) {
+		  define('EDD_DISABLE_ARCHIVE', false);
+        }
+        
+        if (!defined('EDD_DISABLE_REWRITE')) {
+            define('EDD_DISABLE_REWRITE', false);
+        }
+	  
+        // Change Slug
+        if (!defined('EDD_SLUG')) {
+            define('EDD_SLUG', 'Arrangements');
+        }
 	
+    } // edd_loaded()
+
+    
+    
 	add_filter('edd_download_post_type_args', 'disable_archives');
 	add_action('template_redirect', 'download_redirect_post');
 	function disable_archives($download_args) {
