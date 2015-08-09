@@ -3,7 +3,7 @@
  * WP MusicDistro: Admin Dashboard Modifications
  *
  * @description         Removes all EDD stuff not needed
- * @author              Chris Christoff
+ * @author              Chris Christoff, Jordan Pakrosnis
 */
 
 
