@@ -66,70 +66,78 @@ if(is_admin())
     
     
 	
+    /**
+     * Remove & Modify Admin Dashboard Elements
+     */ 
 	function remove_admin_stuff($translated_text, $untranslated_text, $domain) {
-	  if (get_current_post_type() !== 'download') {
-		return $untranslated_text;
-	  }
-	  switch ($untranslated_text) {
-		case 'Show all tags':
-		  $translated_text = __('Show all Arrangement Types', 'edd_music');
-		  break;
-	
-		case 'Show all categories':
-		  $translated_text = __('Show all Band & Instrument(s)', 'edd_music');
-		  break;
-	
-		case 'Arrangement Tags':
-		  $translated_text = __('Arrangement Types', 'edd_music');
-		  break;
-	
-		case 'Search Categories':
-		  $translated_text = __('Search Band & Instrument(s)', 'edd_music');
-		  break;
-	
-		case 'Search Tags':
-		  $translated_text = __('Search Arrangement Types', 'edd_music');
-		  break;
-	
-		case 'Popular Tags':
-		  $translated_text = __('Popular Arrangement Types', 'edd_music');
-		  break;
-	
-		case 'Add New Category':
-		  $translated_text = __('Add New Band & Instrument(s)', 'edd_music');
-		  break;
-	
-		case 'Add New Tag':
-		  $translated_text = __('Add New Arrangement Type', 'edd_music');
-		  break;
-	
-		case 'Tags':
-		  $translated_text = __('Arrangement Type', 'edd_music');
-		  break;
-	
-		case 'Category':
-		case 'Categories':
-		  $translated_text = __('Band & Instrument(s)', 'edd_music');
-		  break;
-	
-		case 'Download Tags':
-		  $translated_text = __('Arrangement Type', 'edd_music');
-		  break;
-	
-		case 'Arrangement Categories':
-		  $translated_text = __('Band & Instrument(s)', 'edd_music');
-		  break;
-	
-		case 'File Downloads:':
-		  $translated_text = "";
-		  break;
-		  //add more items
-		  
-		  
-	  }
+        
+        // If not Download
+        if (get_current_post_type() !== 'download') {
+            return $untranslated_text;
+        }
+        
+        switch ($untranslated_text) {
+                
+            case 'Show all tags':
+                $translated_text = __('Show all Arrangement Types', 'edd_music');
+                break;
+
+            case 'Show all categories':
+                $translated_text = __('Show all Band & Instrument(s)', 'edd_music');
+                break;
+
+            case 'Arrangement Tags':
+                $translated_text = __('Arrangement Types', 'edd_music');
+                break;
+
+            case 'Search Categories':
+                $translated_text = __('Search Band & Instrument(s)', 'edd_music');
+                break;
+
+            case 'Search Tags':
+                $translated_text = __('Search Arrangement Types', 'edd_music');
+                break;
+
+            case 'Popular Tags':
+                $translated_text = __('Popular Arrangement Types', 'edd_music');
+                break;
+
+            case 'Add New Category':
+                $translated_text = __('Add New Band & Instrument(s)', 'edd_music');
+                break;
+
+            case 'Add New Tag':
+                $translated_text = __('Add New Arrangement Type', 'edd_music');
+                break;
+
+            case 'Tags':
+                $translated_text = __('Arrangement Type', 'edd_music');
+                break;
+
+            case 'Category':
+            case 'Categories':
+                $translated_text = __('Band & Instrument(s)', 'edd_music');
+                break;
+
+            case 'Download Tags':
+                $translated_text = __('Arrangement Type', 'edd_music');
+                break;
+
+            case 'Arrangement Categories':
+                $translated_text = __('Band & Instrument(s)', 'edd_music');
+                break;
+
+            case 'File Downloads:':
+                $translated_text = "";
+                break;
+              //add more items
+		    
+	  } // switch
 	  
 	  return $translated_text;
-	}
+	
+    } // remove_admin_stuff()
+    
 	
 	
 	add_action('edd_download_file_table_row', 'output_nounce');
