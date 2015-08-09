@@ -2,9 +2,8 @@
 /*
  * WP MusicDistro: Admin Dashboard Modifications
  *
- * Description:         Removes all EDD stuff not needed
- * Author:              Chris Christoff
- * Author UIR:          https://www.chriscct7.com
+ * @description         Removes all EDD stuff not needed
+ * @author              Chris Christoff
 */
 
 

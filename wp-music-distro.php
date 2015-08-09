@@ -13,4 +13,4 @@ Author URI:  http://JordanPak.com/
 //  DASHBOARD SETUP  //
 //===================//
 
-require_once( 'admin.php' );
+require_once( 'wp-musicdistro-admin.php' );
