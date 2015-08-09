@@ -9,8 +9,8 @@ Author URI:  http://JordanPak.com/
 */
 
 
-//===================//
-//  DASHBOARD SETUP  //
-//===================//
+//===========//
+//  INCLUDES //
+//===========//
 
-require_once( 'wp-musicdistro-admin.php' );
+require_once( 'includes/admin/musicdistro-admin.php' );
