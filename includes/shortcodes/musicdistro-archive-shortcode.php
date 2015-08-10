@@ -114,11 +114,11 @@ function musicdistro_archive_shortcode( $atts ) {
 
 
                     // Wrap in Block
-                    $output .= '<div class="musicdistro-masonry-grid block masonry-block masonry-block-size--one-third">';
+                    $output .= '<div class="musicdistro-masonry-block block masonry-block masonry-block-size--one-third">';
 
 
                         // ARRANGEMENT TYPE LABEL
-                        $output .= '<div class="musicdistro-type-heading">' . $tag->name . '</div>';
+                        $output .= '<h3 class="musicdistro-type-heading">' . $tag->name . '</h3>';
 
                         // ARRANGEMENT TYPE BODY
                         $output .= '<div class="musicdistro-type-body">';
@@ -330,10 +330,10 @@ function musicdistro_archive_instrument_form( $selected, $band_id, $selected_ins
     $output = '';
     
     
-    $output .= '<div class="block masonry-block masonry-block-size--one-third">';
+    $output .= '<div class="musicdistro-form-block block masonry-block masonry-block-size--one-third">';
     
     
-        $output .= '<form class="form-horizontal" role="form">';
+        $output .= '<form class="musicdistro-instrument-form" role="form">';
 
 
             if( $selected != 0 ) {
@@ -374,7 +374,7 @@ function musicdistro_archive_instrument_form( $selected, $band_id, $selected_ins
 
 
             // Submit Button for Selecting Instrument
-            $output .= '<button type="submit" class="button">Get Music</button>';
+            $output .= '<button type="submit">Get Music</button>';
 
 
         $output .= '</form>';
