@@ -87,9 +87,12 @@ function musicdistro_archive_shortcode( $atts ) {
 
 
                 // No Arrangements Found
-                if( ($arrangements->have_posts()) == false ) {
-                    $output .=  '<div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> No ' . $band_name . ' ' . $selected_instrument_name . ' arrangements found!</div>';
-                }
+                if( ($arrangements->have_posts()) == false )
+                    $output .=  '
+                        <div class="block masonry-block masonry-block-size--one-third">
+                            <i class="fa fa-exclamation-triangle"></i> No ' . $band_name . ' ' . $selected_instrument_name . ' arrangements found!
+                        </div>
+                    ';
 
 
                 // GET ARRANGEMENT POSTS
@@ -111,14 +114,14 @@ function musicdistro_archive_shortcode( $atts ) {
 
 
                     // Wrap in Block
-                    $output .= '<div class="block masonry-block masonry-block-size--one-third">';
+                    $output .= '<div class="musicdistro-masonry-grid block masonry-block masonry-block-size--one-third">';
 
 
                         // ARRANGEMENT TYPE LABEL
-                        $output .= '<div class="musicdistro arrangement-type-heading">' . $tag->name . '</div>';
+                        $output .= '<div class="musicdistro-type-heading">' . $tag->name . '</div>';
 
                         // ARRANGEMENT TYPE BODY
-                        $output .= '<div class="musicdistro arragement-type-body">';
+                        $output .= '<div class="musicdistro-type-body">';
 
 
                                 //-- CYCLE THROUGH ARRANGEMENTS --//
@@ -137,7 +140,7 @@ function musicdistro_archive_shortcode( $atts ) {
 
 
                                         //-- Display Arrangement Title --//
-                                        $output .=  '<b>' . get_the_title( $arrangement ) . '</b><div class="dl-buttons">';
+                                        $output .=  '<b>' . get_the_title( $arrangement ) . '</b><div class="musicdistro-download-buttons">';
 
 
                                         //-- Get Files (Names & URLSs) For Current Arrangement --//
@@ -222,7 +225,7 @@ function musicdistro_archive_shortcode( $atts ) {
 
                                                 // Exception for Recordings: Different Icon!
                                                 if( $selected_instrument_name == "Recordings" ) {
-                                                    $output .=  '<a class="button" href="'.$file['file'].'" target="_blank"><i class="fa fa-play"></i></a>';											
+                                                    $output .=  '<a class="button musicdistro-download musicdistro-recording" href="'.$file['file'].'" target="_blank"><i class="fa fa-play"></i></a>';											
                                                 }
 
                                                 // Not recording
@@ -235,13 +238,13 @@ function musicdistro_archive_shortcode( $atts ) {
                                                         ( is_numeric($explosion[2]) == FALSE ) 
                                                        )
                                                     {
-                                                        $output .=  '<a class="button" href="'.$file['file'].'" target="_blank"><i class="fa fa-arrow-down"></i></a>';
+                                                        $output .=  '<a class="button musicdistro-download" href="'.$file['file'].'" target="_blank"><i class="fa fa-arrow-down"></i></a>';
                                                     }
 
 
                                                     // For sheet music with more than one part for a given instrument
                                                     else {
-                                                        $output .=  '<a class="button" href="'.$file['file'].'" target="_blank">' . $name . '</a>';
+                                                        $output .=  '<a class="button musicdistro-download" href="'.$file['file'].'" target="_blank">' . $name . '</a>';
                                                     }
 
                                                 } // Else: Not recording
