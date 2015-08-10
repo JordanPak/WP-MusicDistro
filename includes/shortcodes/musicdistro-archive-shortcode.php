@@ -64,7 +64,7 @@ function musicdistro_archive_shortcode( $atts ) {
 
 
             //-- BREAKER BLOCK --//
-            $output .= '<div class="masonry-block masonry-block-size--one-whole masonry-breaker-block"></div>';
+//            $output .= '<div class="masonry-block masonry-block-size--one-whole masonry-breaker-block"></div>';
 
 
             //-- IF AN INSTRUMENT HAS BEEN SELECTED --//
@@ -233,7 +233,7 @@ function musicdistro_archive_shortcode( $atts ) {
 
                                                         // Exception for Recordings: Different Icon!
                                                         if( $selected_instrument_name == "Recordings" ) {
-                                                            $output .=  '<a class="button button-sm musicdistro-download musicdistro-recording" href="'.$file['file'].'" target="_blank"><i class="fa fa-play"></i></a>';											
+                                                            $output .=  '<a class="musicdistro-download musicdistro-recording" href="'.$file['file'].'" target="_blank"><i class="fa fa-play"></i></a>';											
                                                         }
 
                                                         // Not recording
@@ -241,19 +241,13 @@ function musicdistro_archive_shortcode( $atts ) {
 
                                                             // If the arrangment only has one part for a given instrument
                                                             // (Detected by the input name not having a number)
-                                                            if ( 
-                                                                ( is_numeric($explosion[1]) == FALSE ) &&
-                                                                ( is_numeric($explosion[2]) == FALSE ) 
-                                                               )
-                                                            {
-                                                                $output .=  '<a class="button button-sm musicdistro-download" href="'.$file['file'].'" target="_blank"><i class="fa fa-arrow-down"></i></a>';
-                                                            }
+                                                            if ( ( is_numeric($explosion[1]) == FALSE ) && ( is_numeric($explosion[2]) == FALSE ) )
+                                                                $output .=  '<a class="musicdistro-download" href="'.$file['file'].'" target="_blank"><i class="fa fa-download"></i></a>';
 
 
                                                             // For sheet music with more than one part for a given instrument
-                                                            else {
-                                                                $output .=  '<a class="button musicdistro-download" href="'.$file['file'].'" target="_blank">' . $name . '</a>';
-                                                            }
+                                                            else
+                                                                $output .=  '<a class="musicdistro-download" href="'.$file['file'].'" target="_blank">' . $name . '</a>';
 
                                                         } // Else: Not recording
 
