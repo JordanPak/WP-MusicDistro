@@ -59,7 +59,10 @@ function musicdistro_archive_shortcode( $atts ) {
         //-- INSTRUMENT FORM --//
         $output .= musicdistro_archive_instrument_form( $selected, $band_id, $selected_instrument_id );
 
-
+        
+        //-- BREAKER BLOCK --//
+        $output .= '<div class="masonry-block masonry-block-size--one-whole masonry-breaker-block">';
+        
 
         //-- IF AN INSTRUMENT HAS BEEN SELECTED --//
         if( $selected ) {	
@@ -307,51 +310,58 @@ function musicdistro_archive_instrument_form( $selected, $band_id, $selected_ins
     $output = '';
     
     
-    $output .= '<form class="form-horizontal" role="form">';
-
-
-        if( $selected != 0 ) {
-            $output .= '<p><b>Different Instrument? Recordings?</b></p>';
-        }
+    $output .= '<div class="block masonry-block masonry-block-size--one-third">';
     
-        else {
-            $output .= '<p><b>Select an Instrument or Recordings</b></p>';
-        }
-
-
-        // Parameters for category dropdown
-        $catArgs = array(
-            'show_option_all'    => '',
-            'show_option_none'   => '',
-            'orderby'            => 'ID', 
-            'order'              => 'ASC',
-            'show_count'         => 0, // Shows number of arrangements for that instrument
-            'hide_empty'         => 0, 
-            'child_of'           => $band_id,
-            'exclude'            => '',
-            'echo'               => 0,
-            'selected'           => $selected_instrument_id,
-            'hierarchical'       => 0, 
-            'name'               => 'cat',
-            'id'                 => '',
-            'class'              => 'form-control',
-            'depth'              => 0,
-            'tab_index'          => 0,
-            'taxonomy'           => 'download_category',
-            'hide_if_empty'      => false,
-            'walker'             => ''
-        );
-
-
-        // Display dropdown for categories
-        $output .= wp_dropdown_categories( $catArgs );
     
+        $output .= '<form class="form-horizontal" role="form">';
 
-        // Submit Button for Selecting Instrument
-        $output .= '<button type="submit" class="button">Get Music</button>';
 
+            if( $selected != 0 ) {
+                $output .= '<p><b>Different Instrument? Recordings?</b></p>';
+            }
+
+            else {
+                $output .= '<p><b>Select an Instrument or Recordings</b></p>';
+            }
+
+
+            // Parameters for category dropdown
+            $catArgs = array(
+                'show_option_all'    => '',
+                'show_option_none'   => '',
+                'orderby'            => 'ID', 
+                'order'              => 'ASC',
+                'show_count'         => 0, // Shows number of arrangements for that instrument
+                'hide_empty'         => 0, 
+                'child_of'           => $band_id,
+                'exclude'            => '',
+                'echo'               => 0,
+                'selected'           => $selected_instrument_id,
+                'hierarchical'       => 0, 
+                'name'               => 'cat',
+                'id'                 => '',
+                'class'              => 'form-control',
+                'depth'              => 0,
+                'tab_index'          => 0,
+                'taxonomy'           => 'download_category',
+                'hide_if_empty'      => false,
+                'walker'             => ''
+            );
+
+
+            // Display dropdown for categories
+            $output .= wp_dropdown_categories( $catArgs );
+
+
+            // Submit Button for Selecting Instrument
+            $output .= '<button type="submit" class="button">Get Music</button>';
+
+
+        $output .= '</form>';
     
-    $output .= '</form>';
+    
+    // Close Masonry Block
+    $output .= '</div>';
 
             
     return $output;
