@@ -138,143 +138,151 @@ function musicdistro_archive_shortcode( $atts ) {
                                     //-- CHECK IF CURRENT ARRANGEMENT HAS TAG FOR THIS BOX --//
                                     if( has_term( $tag, 'download_tag', $object ) ) {
 
-
-                                        //-- Display Arrangement Title --//
-                                        $output .=  '<b>' . get_the_title( $arrangement ) . '</b><div class="musicdistro-download-buttons">';
-
-
-                                        //-- Get Files (Names & URLSs) For Current Arrangement --//
-                                        $files = edd_get_download_files( $arrangement );
-
-
-                                        // Set counter for unsetting, keeps track of what index we're at for removing
-                                        $counter_a = 0;
-
-
-
-                                        //-- CYCLE THROUGH FILES OF CURRENT ARRANGEMENT --//
-                                        //--     AND REMOVE UNMATCHING INSTRUMENTS      --//
-                                        foreach( $files as $file ) {
+                                        
+                                        // Arrangement Wrap
+                                        $output .= '<div class="musicdistro-arrangement">';
+                                        
+                                            //-- Display Arrangement Title --//
+                                            $output .=  '<span class="musicdistro-arrangement-title">' . get_the_title( $arrangement ) . '</span>';
+                                        
+                                        
+                                        
+                                            //-- Arrangement Buttons --//
+                                            $output .= '<div class="musicdistro-arrangement-buttons">';
 
 
-                                            //-- Explode File Into Array of Strings --//
-                                            $explosion = explode(" ", $file['name']);
+                                                //-- Get Files (Names & URLSs) For Current Arrangement --//
+                                                $files = edd_get_download_files( $arrangement );
+
+
+                                                // Set counter for unsetting, keeps track of what index we're at for removing
+                                                $counter_a = 0;
 
 
 
-                                            //---------------------//
-                                            // TWO WORD INSTRUMENT //
-                                            //------------------------------------------------//
-                                            // If the second word is NOT a number and EXISTS  //
-                                            //------------------------------------------------//
-                                            if( (is_numeric($explosion[1]) == FALSE) && ($explosion[1] != NULL) ) {
+                                                //-- CYCLE THROUGH FILES OF CURRENT ARRANGEMENT --//
+                                                //--     AND REMOVE UNMATCHING INSTRUMENTS      --//
+                                                foreach( $files as $file ) {
 
-                                                //-- Unset Current File If It's Not For Selected Instrument --//
-                                                if ( ($explosion[0] . ' ' . $explosion[1]) !== $selected_instrument_name )																					
-                                                    unset($files[$counter_a]);
-                                            }
+
+                                                    //-- Explode File Into Array of Strings --//
+                                                    $explosion = explode(" ", $file['name']);
 
 
 
-                                            //---------------------//
-                                            // ONE WORD INSTRUMENT //
-                                            //-------------------------------------------//
-                                            // If it's NOT a two word instrument (else)  //
-                                            //-------------------------------------------//
-                                            else {
+                                                    //---------------------//
+                                                    // TWO WORD INSTRUMENT //
+                                                    //------------------------------------------------//
+                                                    // If the second word is NOT a number and EXISTS  //
+                                                    //------------------------------------------------//
+                                                    if( (is_numeric($explosion[1]) == FALSE) && ($explosion[1] != NULL) ) {
 
-                                                if ($explosion[0] !== $selected_instrument_name)
-                                                    unset($files[$counter_a]);
-
-                                            } // else
-
-
-                                            // Increment counter
-                                            $counter_a++;
-
-                                        } // foreach files as file
-
-
-                                        // Sorts the array alphabetically
-                                        asort( $files );
-
-
-                                        // Counter for pipes (USING BUTTONS NOW)
-                                        $counter = 1;
-
-
-
-                                        //-- CYCLE THROUGH FILTERED FILES PRINT APPROPRIATE --//
-                                        //--        LINKS FOR THE SELECTED INSTRUMENT       --//
-                                        foreach( $files as $file ) {
-
-                                            //-- Explode File Into Array of Strings --//
-                                            $explosion = explode(" ", $file['name']);																		
-
-
-                                            //-- If the first word OR first two words = the slected instrument --//
-                                            if (  
-                                                  ($explosion[0] == $selected_instrument_name) || 
-                                                  (($explosion[0] . ' ' . $explosion[1]) == $selected_instrument_name)
-                                               ) {
-
-
-                                                // Remove the instrument name and space from file name (variable)
-                                                $name = str_replace($selected_instrument_name." ","",$file['name']);
-
-
-                                                // Exception for Recordings: Different Icon!
-                                                if( $selected_instrument_name == "Recordings" ) {
-                                                    $output .=  '<a class="button musicdistro-download musicdistro-recording" href="'.$file['file'].'" target="_blank"><i class="fa fa-play"></i></a>';											
-                                                }
-
-                                                // Not recording
-                                                else {
-
-                                                    // If the arrangment only has one part for a given instrument
-                                                    // (Detected by the input name not having a number)
-                                                    if ( 
-                                                        ( is_numeric($explosion[1]) == FALSE ) &&
-                                                        ( is_numeric($explosion[2]) == FALSE ) 
-                                                       )
-                                                    {
-                                                        $output .=  '<a class="button musicdistro-download" href="'.$file['file'].'" target="_blank"><i class="fa fa-arrow-down"></i></a>';
+                                                        //-- Unset Current File If It's Not For Selected Instrument --//
+                                                        if ( ($explosion[0] . ' ' . $explosion[1]) !== $selected_instrument_name )																					
+                                                            unset($files[$counter_a]);
                                                     }
 
 
-                                                    // For sheet music with more than one part for a given instrument
+
+                                                    //---------------------//
+                                                    // ONE WORD INSTRUMENT //
+                                                    //-------------------------------------------//
+                                                    // If it's NOT a two word instrument (else)  //
+                                                    //-------------------------------------------//
                                                     else {
-                                                        $output .=  '<a class="button musicdistro-download" href="'.$file['file'].'" target="_blank">' . $name . '</a>';
-                                                    }
 
-                                                } // Else: Not recording
+                                                        if ($explosion[0] !== $selected_instrument_name)
+                                                            unset($files[$counter_a]);
 
-
-                                                // If it's not the last item, put in a space
-                                                if ( $counter != count($files)){
-                                                    $output .=  '&nbsp';
-                                                }
+                                                    } // else
 
 
-                                                //-- Unset / Reset Array --//
-                                                $explosion = array();
+                                                    // Increment counter
+                                                    $counter_a++;
+
+                                                } // foreach files as file
 
 
-                                                $counter++;
+                                                // Sorts the array alphabetically
+                                                asort( $files );
 
 
-                                            } // IF the name of the file = selected instrument
+                                                // Counter for pipes (USING BUTTONS NOW)
+                                                $counter = 1;
 
 
-                                        } // foreach: files as file
+
+                                                //-- CYCLE THROUGH FILTERED FILES PRINT APPROPRIATE --//
+                                                //--        LINKS FOR THE SELECTED INSTRUMENT       --//
+                                                foreach( $files as $file ) {
+
+                                                    //-- Explode File Into Array of Strings --//
+                                                    $explosion = explode(" ", $file['name']);																		
 
 
-                                        // Finish dl-buttons
-                                        $output .=  '</div>';
+                                                    //-- If the first word OR first two words = the slected instrument --//
+                                                    if (  
+                                                          ($explosion[0] == $selected_instrument_name) || 
+                                                          (($explosion[0] . ' ' . $explosion[1]) == $selected_instrument_name)
+                                                       ) {
 
 
-                                        // Add Spacer
-                                        $output .=  '<hr>';
+                                                        // Remove the instrument name and space from file name (variable)
+                                                        $name = str_replace($selected_instrument_name." ","",$file['name']);
+
+
+                                                        // Exception for Recordings: Different Icon!
+                                                        if( $selected_instrument_name == "Recordings" ) {
+                                                            $output .=  '<a class="button button-sm musicdistro-download musicdistro-recording" href="'.$file['file'].'" target="_blank"><i class="fa fa-play"></i></a>';											
+                                                        }
+
+                                                        // Not recording
+                                                        else {
+
+                                                            // If the arrangment only has one part for a given instrument
+                                                            // (Detected by the input name not having a number)
+                                                            if ( 
+                                                                ( is_numeric($explosion[1]) == FALSE ) &&
+                                                                ( is_numeric($explosion[2]) == FALSE ) 
+                                                               )
+                                                            {
+                                                                $output .=  '<a class="button button-sm musicdistro-download" href="'.$file['file'].'" target="_blank"><i class="fa fa-arrow-down"></i></a>';
+                                                            }
+
+
+                                                            // For sheet music with more than one part for a given instrument
+                                                            else {
+                                                                $output .=  '<a class="button musicdistro-download" href="'.$file['file'].'" target="_blank">' . $name . '</a>';
+                                                            }
+
+                                                        } // Else: Not recording
+
+
+                                                        // If it's not the last item, put in a space
+                                                        if ( $counter != count($files)){
+                                                            $output .=  '&nbsp';
+                                                        }
+
+
+                                                        //-- Unset / Reset Array --//
+                                                        $explosion = array();
+
+
+                                                        $counter++;
+
+
+                                                    } // IF the name of the file = selected instrument
+
+
+                                                } // foreach: files as file
+
+
+                                            // Finish dl-buttons
+                                            $output .=  '</div>';
+
+
+                                        // Close Arrangement
+                                        $output .= '</div>';
 
 
                                     } // if: has_term download tag
