@@ -119,6 +119,10 @@ function musicdistro_archive_shortcode( $atts ) {
 
                         // ARRANGEMENT TYPE LABEL
                         $output .= '<h3 class="musicdistro-type-heading">' . $tag->name . '</h3>';
+                    
+                    
+//                        $output .= '<div class="musicdistro-type-body-header">Arrangement<span>Part(s)</span></div>';
+                    
 
                         // ARRANGEMENT TYPE BODY
                         $output .= '<div class="musicdistro-type-body">';
