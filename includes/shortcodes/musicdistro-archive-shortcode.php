@@ -14,31 +14,31 @@
  * @author Jordan Pakrosnis
  */
 function musicdistro_archive_shortcode( $atts ) {
-    
-    
+
+
     //-- ATTRIBUTES --//
 	$atts = shortcode_atts( array(
         'band'      => 'marching-knights',
 	), $atts, 'musicdistro' );
 
-    
+
     // Output
     $output = '';
-    
-    
+
+
     //=========//
     //  LOGIC  //
     //=========//
 
-    
+
     //-- ARCHIVE PAGE INFORMATION --//
     $band_slug = $atts['band'];                                             // SLUG of the band (parent category)
     $band_term = get_term_by('slug', $band_slug, 'download_category');      // Get the whole term BY slug, using the BAND SLUG (Parent Category Slug) as the term, INSIDE the download_category taxonomy
     $band_id = $band_term->term_id;                                         // Get the ID from that term
     $band_name = $band_term->name;                                          // Get the Name from that term also
 
-    
-    
+
+
     //-- SELECTED INSTRUMENT INFORMATION --//
     $selected = isset($_REQUEST['cat']) && $_REQUEST['cat'] != '' ? $_REQUEST['cat'] : 0;           // Get selected instrument
 
@@ -47,11 +47,11 @@ function musicdistro_archive_shortcode( $atts ) {
     $selected_instrument_slug = $selected_instrument_term->slug;                                    // SLUG     of selected instrument
     $selected_instrument_name = $selected_instrument_term->name;                                    // NAME     of selected instrument
 
-    
+
     //-- MUSICDISTRO WRAPPER --//
     $output .= '<div class="musicdistro-wrap">';
-    
-    
+
+
         //-- START GRID --//
         $output .= '<section class="masonry-6col-grid">';
             $output .= '<div class="masonry-6col-grid-sizer"></div>';
@@ -68,18 +68,18 @@ function musicdistro_archive_shortcode( $atts ) {
 
 
             //-- IF AN INSTRUMENT HAS BEEN SELECTED --//
-            if( $selected ) {	
+            if( $selected ) {
 
 
                 // Arrangements Query Args
                 $arrangementSelection = array(
                     'post_type'			=> 'download',
-                    'download_category'	=> $selected_instrument_slug,
+                    // 'download_category'	=> $selected_instrument_slug,
                     'fields'            => 'ids',                       // This is so only the ID is returned instead of the WHOLE post object (Performance)
                     'orderby'           => 'title',
                     'order'             => 'ASC',
                     'posts_per_page'    => -1
-                );                                            
+                );
 
                 // ARRAY OF ALL SONGS FOR THE SELECTED INSTRUMENT
                 $arrangements = new WP_Query( $arrangementSelection );
@@ -99,8 +99,8 @@ function musicdistro_archive_shortcode( $atts ) {
                 $arrangements = $arrangements->get_posts();
 
 
-                // SONG TYPES (Tags)                                  
-                $tags = wp_get_object_terms( $arrangements, 'download_tag');										
+                // SONG TYPES (Tags)
+                $tags = wp_get_object_terms( $arrangements, 'download_tag');
 
 
                 // Remove Duplicate Tags
@@ -119,10 +119,10 @@ function musicdistro_archive_shortcode( $atts ) {
 
                         // ARRANGEMENT TYPE LABEL
                         $output .= '<h3 class="musicdistro-type-heading">' . $tag->name . '</h3>';
-                    
-                    
+
+
 //                        $output .= '<div class="musicdistro-type-body-header">Arrangement<span>Part(s)</span></div>';
-                    
+
 
                         // ARRANGEMENT TYPE BODY
                         $output .= '<div class="musicdistro-type-body">';
@@ -134,7 +134,7 @@ function musicdistro_archive_shortcode( $atts ) {
                                 foreach( $arrangements as $arrangement ) {
 
 
-                                    // Get the arrangement post from the ID	
+                                    // Get the arrangement post from the ID
                                     $object = get_post( $arrangement );
 
 
@@ -142,15 +142,15 @@ function musicdistro_archive_shortcode( $atts ) {
                                     //-- CHECK IF CURRENT ARRANGEMENT HAS TAG FOR THIS BOX --//
                                     if( has_term( $tag, 'download_tag', $object ) ) {
 
-                                        
+
                                         // Arrangement Wrap
                                         $output .= '<div class="musicdistro-arrangement">';
-                                        
+
                                             //-- Display Arrangement Title --//
                                             $output .=  '<span class="musicdistro-arrangement-title">' . get_the_title( $arrangement ) . '</span>';
-                                        
-                                        
-                                        
+
+
+
                                             //-- Arrangement Buttons --//
                                             $output .= '<div class="musicdistro-arrangement-buttons">';
 
@@ -162,6 +162,9 @@ function musicdistro_archive_shortcode( $atts ) {
                                                 // Set counter for unsetting, keeps track of what index we're at for removing
                                                 $counter_a = 0;
 
+
+                                                // Used to see if any matches were found
+                                                $match_found = false;
 
 
                                                 //-- CYCLE THROUGH FILES OF CURRENT ARRANGEMENT --//
@@ -182,8 +185,12 @@ function musicdistro_archive_shortcode( $atts ) {
                                                     if( (is_numeric($explosion[1]) == FALSE) && ($explosion[1] != NULL) ) {
 
                                                         //-- Unset Current File If It's Not For Selected Instrument --//
-                                                        if ( ($explosion[0] . ' ' . $explosion[1]) !== $selected_instrument_name )																					
+                                                        if ( ($explosion[0] . ' ' . $explosion[1]) !== $selected_instrument_name )
                                                             unset($files[$counter_a]);
+
+                                                        else
+                                                            $match_found = true;
+
                                                     }
 
 
@@ -198,6 +205,9 @@ function musicdistro_archive_shortcode( $atts ) {
                                                         if ($explosion[0] !== $selected_instrument_name)
                                                             unset($files[$counter_a]);
 
+                                                        else
+                                                            $match_found = true;
+
                                                     } // else
 
 
@@ -205,6 +215,7 @@ function musicdistro_archive_shortcode( $atts ) {
                                                     $counter_a++;
 
                                                 } // foreach files as file
+
 
 
                                                 // Sorts the array alphabetically
@@ -215,64 +226,74 @@ function musicdistro_archive_shortcode( $atts ) {
                                                 $counter = 1;
 
 
-
-                                                //-- CYCLE THROUGH FILTERED FILES PRINT APPROPRIATE --//
-                                                //--        LINKS FOR THE SELECTED INSTRUMENT       --//
-                                                foreach( $files as $file ) {
-
-                                                    //-- Explode File Into Array of Strings --//
-                                                    $explosion = explode(" ", $file['name']);																		
+                                                //-- PROCEED WITH DOWNLOAD LINKS IF MATCH FOUND --//
+                                                if ($match_found == true) {
 
 
-                                                    //-- If the first word OR first two words = the slected instrument --//
-                                                    if (  
-                                                          ($explosion[0] == $selected_instrument_name) || 
-                                                          (($explosion[0] . ' ' . $explosion[1]) == $selected_instrument_name)
-                                                       ) {
+                                                    //-- CYCLE THROUGH FILTERED FILES PRINT APPROPRIATE --//
+                                                    //--        LINKS FOR THE SELECTED INSTRUMENT       --//
+                                                    foreach( $files as $file ) {
+
+                                                        //-- Explode File Into Array of Strings --//
+                                                        $explosion = explode(" ", $file['name']);
 
 
-                                                        // Remove the instrument name and space from file name (variable)
-                                                        $name = str_replace($selected_instrument_name." ","",$file['name']);
+                                                        //-- If the first word OR first two words = the slected instrument --//
+                                                        if (
+                                                              ($explosion[0] == $selected_instrument_name) ||
+                                                              (($explosion[0] . ' ' . $explosion[1]) == $selected_instrument_name)
+                                                           ) {
 
 
-                                                        // Exception for Recordings: Different Icon!
-                                                        if( $selected_instrument_name == "Recordings" ) {
-                                                            $output .=  '<a class="musicdistro-download musicdistro-recording" href="'.$file['file'].'" target="_blank"><i class="fa fa-play"></i></a>';											
-                                                        }
-
-                                                        // Not recording
-                                                        else {
-
-                                                            // If the arrangment only has one part for a given instrument
-                                                            // (Detected by the input name not having a number)
-                                                            if ( ( is_numeric($explosion[1]) == FALSE ) && ( is_numeric($explosion[2]) == FALSE ) )
-                                                                $output .=  '<a class="musicdistro-download" href="'.$file['file'].'" target="_blank"><i class="fa fa-download"></i></a>';
+                                                            // Remove the instrument name and space from file name (variable)
+                                                            $name = str_replace($selected_instrument_name." ","",$file['name']);
 
 
-                                                            // For sheet music with more than one part for a given instrument
-                                                            else
-                                                                $output .=  '<a class="musicdistro-download" href="'.$file['file'].'" target="_blank">' . $name . '</a>';
+                                                            // Exception for Recordings: Different Icon!
+                                                            if( $selected_instrument_name == "Recordings" ) {
+                                                                $output .=  '<a class="musicdistro-download musicdistro-recording" href="'.$file['file'].'" target="_blank"><i class="fa fa-play"></i></a>';
+                                                            }
 
-                                                        } // Else: Not recording
+                                                            // Not recording
+                                                            else {
 
-
-                                                        // If it's not the last item, put in a space
-                                                        if ( $counter != count($files)){
-                                                            $output .=  '&nbsp';
-                                                        }
-
-
-                                                        //-- Unset / Reset Array --//
-                                                        $explosion = array();
+                                                                // If the arrangment only has one part for a given instrument
+                                                                // (Detected by the input name not having a number)
+                                                                if ( ( is_numeric($explosion[1]) == FALSE ) && ( is_numeric($explosion[2]) == FALSE ) )
+                                                                    $output .=  '<a class="musicdistro-download" href="'.$file['file'].'" target="_blank"><i class="fa fa-download"></i></a>';
 
 
-                                                        $counter++;
+                                                                // For sheet music with more than one part for a given instrument
+                                                                else
+                                                                    $output .=  '<a class="musicdistro-download" href="'.$file['file'].'" target="_blank">' . $name . '</a>';
+
+                                                            } // Else: Not recording
 
 
-                                                    } // IF the name of the file = selected instrument
+                                                            // If it's not the last item, put in a space
+                                                            if ( $counter != count($files)){
+                                                                $output .=  '&nbsp';
+                                                            }
 
 
-                                                } // foreach: files as file
+                                                            //-- Unset / Reset Array --//
+                                                            $explosion = array();
+
+
+                                                            $counter++;
+
+
+                                                        } // IF the name of the file = selected instrument
+
+                                                    } // foreach: files as file
+
+                                                } // MATCH FOUND
+
+
+                                                //-- NO MATCH FOUND --//
+                                                else {
+                                                    $output .= '<span class="md-not-available">N/A</span>';
+                                                }
 
 
                                             // Finish dl-buttons
@@ -309,15 +330,15 @@ function musicdistro_archive_shortcode( $atts ) {
 
         // Close Grid
         $output .= '</section>';
-    
-    
+
+
     // Close Wrap
     $output .= '</div>';
-        
-    
+
+
     // Return Output String
 	return $output;
-    
+
 } // musicdistro_archive_shortcode()
 
 // Register the shortcode
@@ -331,14 +352,14 @@ add_shortcode( 'musicdistro', 'musicdistro_archive_shortcode' );
  * @author Jordan Pakrosnis
  */
 function musicdistro_archive_instrument_form( $selected, $band_id, $selected_instrument_id ) {
-    
+
     // Output
     $output = '';
-    
-    
+
+
     $output .= '<div class="musicdistro-form-block block masonry-block masonry-block-size--one-third">';
-    
-    
+
+
         $output .= '<form class="musicdistro-instrument-form" role="form">';
 
 
@@ -355,15 +376,15 @@ function musicdistro_archive_instrument_form( $selected, $band_id, $selected_ins
             $catArgs = array(
                 'show_option_all'    => '',
                 'show_option_none'   => '',
-                'orderby'            => 'ID', 
+                'orderby'            => 'ID',
                 'order'              => 'ASC',
                 'show_count'         => 0, // Shows number of arrangements for that instrument
-                'hide_empty'         => 0, 
+                'hide_empty'         => 0,
                 'child_of'           => $band_id,
                 'exclude'            => '',
                 'echo'               => 0,
                 'selected'           => $selected_instrument_id,
-                'hierarchical'       => 0, 
+                'hierarchical'       => 0,
                 'name'               => 'cat',
                 'id'                 => '',
                 'class'              => 'form-control',
@@ -384,12 +405,12 @@ function musicdistro_archive_instrument_form( $selected, $band_id, $selected_ins
 
 
         $output .= '</form>';
-    
-    
+
+
     // Close Masonry Block
     $output .= '</div>';
 
-            
+
     return $output;
-            
+
 } // musicdistro_archive_instrument_form()
