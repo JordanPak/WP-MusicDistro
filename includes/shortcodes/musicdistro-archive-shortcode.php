@@ -74,7 +74,7 @@ function musicdistro_archive_shortcode( $atts ) {
                 // Arrangements Query Args
                 $arrangementSelection = array(
                     'post_type'			=> 'download',
-                    // 'download_category'	=> $selected_instrument_slug,
+                    'download_category'	=> $band_slug,
                     'fields'            => 'ids',                       // This is so only the ID is returned instead of the WHOLE post object (Performance)
                     'orderby'           => 'title',
                     'order'             => 'ASC',
@@ -119,9 +119,6 @@ function musicdistro_archive_shortcode( $atts ) {
 
                         // ARRANGEMENT TYPE LABEL
                         $output .= '<h3 class="musicdistro-type-heading">' . $tag->name . '</h3>';
-
-
-//                        $output .= '<div class="musicdistro-type-body-header">Arrangement<span>Part(s)</span></div>';
 
 
                         // ARRANGEMENT TYPE BODY
