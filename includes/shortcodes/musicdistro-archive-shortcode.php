@@ -324,6 +324,15 @@ function musicdistro_archive_shortcode( $atts ) {
             wp_reset_postdata();
 
 
+			// Display Error Checking if logged in
+			if ( current_user_can('shop_manager') || current_user_can('administrator') ) {
+
+				// Breaker Block
+				$output .= '<div class="masonry-block masonry-block-size--one-whole masonry-breaker-block"></div>';
+
+				// Form
+				$output .= '<div class="block masonry-block masonry-block-size--one-third block-remove-background-padding">' . musicdistro_error_check() . '</div>';
+			}
 
         // Close Grid
         $output .= '</section>';

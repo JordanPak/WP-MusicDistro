@@ -21,3 +21,6 @@ require_once( 'includes/settings/musicdistro-archive-settings.php' );
 
 // Shortcodes
 require_once( 'includes/shortcodes/musicdistro-archive-shortcode.php' );
+
+// Error Checking
+require_once( 'includes/musicdistro-error-check.php' );
