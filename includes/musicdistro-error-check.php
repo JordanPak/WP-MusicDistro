@@ -231,7 +231,7 @@ function musicdistro_error_check() {
                     } // If one-word instrument Checks
 
 
-                    // CHECK INSTRUMENT RECOGNITION
+                    // CHECK INSTRUMENT RECOGNITION //
                     $match_found = in_array($instrument_name, $instrument_names);
 
                     if ( $match_found == null ) {
@@ -239,12 +239,26 @@ function musicdistro_error_check() {
                     }
 
 
-                    // CHECK PART NUMBER FEASIBILITY
+                    // CHECK PART NUMBER FEASIBILITY //
                     if ( $part_number > 3 ) {
                         $warnings[] = 'High Part Number: ' . $instrument_name . ' <b>' . $part_number . '</b>';
                     }
 
                     // $output .= '</li>';
+
+
+                    // CHECK URL VALIDITY //
+
+                    // No URL
+                    if ( $file['file'] == NULL) {
+                        $errors[] = 'No URL for <b>' . $instrument_name . '</b>';
+                    }
+
+                    // Invalid URL
+                    else if (filter_var($file['file'], FILTER_VALIDATE_URL) === FALSE) {
+                        $errors[] = 'Bad URL for <b>' . $instrument_name . '</b>';
+                    }
+
 
                 } // foreach file
 
