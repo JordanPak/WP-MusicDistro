@@ -91,6 +91,10 @@ function musicdistro_error_check() {
             $output .=  '<b>' . get_the_title( $arrangement ) . '</b>';
 
 
+            // Arrangement Post Edit link
+            $output .= '<a class="musicdistro-errorcheck-post-link" href="' . get_edit_post_link($arrangement) . '" target="_BLANK"><i class="fa fa-edit"></i></a>';
+
+
             // Error Labels Wrapper
             $output .= '<div class="musicdistro-error-labels">';
 
@@ -104,7 +108,7 @@ function musicdistro_error_check() {
 
             // If No Terms
             if ($arrangement_terms == null)
-                $output .= '<span class="musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> Warning: No Band</span>';
+                $output .= '<span class="musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> Band Not Set</span>';
 
             // // If terms found, list them
             // else {
