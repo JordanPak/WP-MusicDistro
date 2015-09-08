@@ -34,17 +34,28 @@
 .musicdistro-error-labels {
     display: inline-block;
     float: right;
-    width: 55%;
-    text-align: right;
+    width: 40%;
+    font-size: 14px;
 }
 
 .musicdistro-label {
     display: inline-block;
-    margin: 0 5px;
+    margin: 0 5px 15px 0;
     padding: 2px 8px;
-    border-bottom: solid 1px;
-    /*border-radius: 6px;*/
-    font-size: 14px;
+    border-left: solid 2px;
+}
+
+.musicdistro-label:last-child {
+    margin-bottom: 0;
+}
+
+.musicdistro-label ul {
+    margin-left: 17px;
+}
+
+.musicdistro-label li {
+    list-style-type: disc;
+    list-style-position: outside;
 }
 
 .musicdistro-label-warning {
@@ -69,4 +80,11 @@
 
 .musicdistro-label-noerror i.fa {
     color: #5CB85C;
+}
+
+.musicdistro-errorcheck-resolve {
+    color: #428BCA;
+    /*border-left: 2px solid #428BCA;*/
+    /*border-bottom: 1px solid #428BCA;*/
+    padding-left: 8px;
 }

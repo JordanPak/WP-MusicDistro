@@ -254,36 +254,44 @@ function musicdistro_error_check() {
 
                 // NO ERRORS or WARNINGS?
                 if ( (sizeof($errors) == 0) && (sizeof($warnings) == 0) ) {  // if ( ($num_errors == 0) && ($num_warnings == 0) ) {
-                    $output .= '<span class="musicdistro-label musicdistro-label-noerror"><i class="fa fa-check-square-o"></i> No Errors Found</span>';
+                    $output .= '<span class="musicdistro-label musicdistro-label-noerror"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;No Errors Found</span>';
                 }
 
-                // Display Errors
-                else if ( sizeof($errors) > 0 ) {
+                else {
 
-                    $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> <b>Errors</b><ul>';
+                    // Display Errors
+                    if ( sizeof($errors) > 0 ) {
 
-                        foreach ($errors as $error) {
-                            $output .= '<li>' . $error . '</li>';
-                        }
+                        $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;<b>Errors</b><ul>';
 
-                    $output .= '</ul></span>';
+                            foreach ($errors as $error) {
+                                $output .= '<li>' . $error . '</li>';
+                            }
 
-                } // Display Errors
+                        $output .= '</ul></span>';
+
+                    } // Display Errors
 
 
-                // Display Warnings
-                else if ( sizeof($warnings) > 0 ) {
+                    // Display Warnings
+                    if ( sizeof($warnings) > 0 ) {
 
-                    $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> <b>Warnings</b><ul>';
+                        $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;<b>Warnings</b><ul>';
 
-                        foreach ($warnings as $warning) {
-                            $output .= '<li>' . $warning . '</li>';
-                        }
+                            foreach ($warnings as $warning) {
+                                $output .= '<li>' . $warning . '</li>';
+                            }
 
-                    $output .= '</ul></span>';
+                        $output .= '</ul></span>';
 
-                } // Display Warnings
+                    } // Display Warnings
 
+
+                    // Resolve link
+                    $output .= '<br><a class="musicdistro-errorcheck-resolve" target="_BLANK" href="' . get_edit_post_link($arrangement) . '"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Click To Resolve</a>';
+
+
+                } // If Errors or Warnings found
 
                 // Close Error Labels Wrap
                 $output .= '</div>';
