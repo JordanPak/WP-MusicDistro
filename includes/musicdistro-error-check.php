@@ -79,6 +79,10 @@ function musicdistro_error_check() {
         // $output .= '</ul><hr>';
 
 
+        // HEADER LABELS
+        $output .= '<div class="musicdistro-errorcheck-header"><h3>Arrangement</h3><div class="musicdistro-error-labels"><h3>Errors &amp; Warnings</h3></div></div>';
+
+
 
         //-- CYCLE THROUGH ARRANGEMENTS --//
         foreach( $arrangements as $arrangement ) { // IDs
