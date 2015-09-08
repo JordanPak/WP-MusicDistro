@@ -3,3 +3,62 @@
 
     @author Jordan Pakrosnis
 */
+
+.musicdistro-errorcheck-wrapper hr {
+    margin: 20px 0;
+}
+
+.musicdistro-errorcheck-wrapper hr:last-child {
+    display: none;
+}
+
+.musicdistro-errorcheck-arrangement-wrapper:before {
+    content: " ";
+    display: table;
+}
+
+.musicdistro-errorcheck-arrangement-wrapper:after {
+    clear: both;
+    content: " ";
+    display: table;
+}
+
+.musicdistro-errorcheck-post-link {
+    margin-left: 10px;
+}
+
+.musicdistro-errorcheck-unpublished {
+    color: #666666;
+}
+
+.musicdistro-error-labels {
+    display: inline-block;
+    float: right;
+    width: 55%;
+    text-align: right;
+}
+
+.musicdistro-label {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 2px 8px;
+    border-bottom: solid 1px;
+    /*border-radius: 6px;*/
+    font-size: 14px;
+}
+
+.musicdistro-label-warning {
+    border-color: #FFCA06;
+}
+
+.musicdistro-label-warning i.fa {
+    color: #FFCA06;
+}
+
+.musicdistro-label-error {
+    border-color: #D41F1A;
+}
+
+.musicdistro-label-error i.fa {
+    color: #D41F1A;
+}

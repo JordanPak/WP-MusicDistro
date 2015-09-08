@@ -88,97 +88,107 @@ function musicdistro_error_check() {
             $object = get_post( $arrangement );
 
 
-            // Arrangement TITLE
-            $output .=  '<b>' . get_the_title( $arrangement ) . '</b>';
+            // Error Counter
 
 
-            // Arrangement POST STATUS
-            if ( get_post_status( $arrangement ) != 'publish' )
-                $output .= ' <span class="musicdistro-errorcheck-unpublished">(unpublished)</span> ';
+            // Arrangement Wrapper
+            $output .= '<div class="musicdistro-errorcheck-arrangement-wrapper">';
 
 
-            // Arrangement Post Edit link
-            $output .= '<a class="musicdistro-errorcheck-post-link" href="' . get_edit_post_link($arrangement) . '" target="_BLANK"><i class="fa fa-edit"></i></a>';
+                // Arrangement TITLE
+                $output .=  '<b>' . get_the_title( $arrangement ) . '</b>';
 
 
-            // Error Labels Wrapper
-            $output .= '<div class="musicdistro-error-labels">';
+                // Arrangement POST STATUS
+                if ( get_post_status( $arrangement ) != 'publish' )
+                    $output .= ' <span class="musicdistro-errorcheck-unpublished">(unpublished)</span> ';
 
 
-            // Arrangement Terms (Band / Bands) Label
-            // $output .= '<p><b>Band(s):</b> ';
+                // Arrangement Post Edit link
+                $output .= '<a class="musicdistro-errorcheck-post-link" href="' . get_edit_post_link($arrangement) . '" target="_BLANK"><i class="fa fa-edit"></i></a>';
 
 
-            // Arrangement TERMS
-            $arrangement_terms = wp_get_post_terms( $arrangement, 'download_category' );
-
-            // If No Terms
-            if ( $arrangement_terms == null )
-                $output .= '<span class="musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> Band Not Set</span>';
-
-            // // If terms found, list them
-            // else {
-            //     foreach ($arrangement_terms as $arrangement_term) {
-            //         $output .= $arrangement_term->name . ' ';
-            //     }
-            // }
+                // Error Labels Wrapper
+                $output .= '<div class="musicdistro-error-labels">';
 
 
-            // Arrangement TAGS (Song Types)
-            $arrangement_tags = wp_get_object_terms( $arrangement, 'download_tag');
-
-            // If No Tags
-            if ( $arrangement_tags == null )
-                $output .= '<span class="musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> No Arrangement Type</span>';
+                // Arrangement Terms (Band / Bands) Label
+                // $output .= '<p><b>Band(s):</b> ';
 
 
-            //-- Arrangement FILES & URLS --//
-            $files = edd_get_download_files( $arrangement );
+                // Arrangement TERMS
+                $arrangement_terms = wp_get_post_terms( $arrangement, 'download_category' );
+
+                // If No Terms
+                if ( $arrangement_terms == null )
+                    $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> Band Not Set</span>';
+
+                // // If terms found, list them
+                // else {
+                //     foreach ($arrangement_terms as $arrangement_term) {
+                //         $output .= $arrangement_term->name . ' ';
+                //     }
+                // }
 
 
-            // Parts Found Label
-            // $output .= '<br><b>Parts Found</b></p><ul>';
+                // Arrangement TAGS (Song Types)
+                $arrangement_tags = wp_get_object_terms( $arrangement, 'download_tag');
+
+                // If No Tags
+                if ( $arrangement_tags == null )
+                    $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> No Arrangement Type</span>';
 
 
-            //-- CYCLE THROUGH FILES OF CURRENT ARRANGEMENT --//
-            foreach( $files as $file ) {
-
-                // Instrument Name (to cross-reference)
-                $instrument_name = '';
+                //-- Arrangement FILES & URLS --//
+                $files = edd_get_download_files( $arrangement );
 
 
-                //-- Explode File Into Array of Strings --//
-                $explosion = explode(" ", $file['name']);
-
-                // Preview Name
-                // $output .= '<li>' . $explosion[0] . ' ' . $explosion[1] . ' ' . $explosion[2];
+                // Parts Found Label
+                // $output .= '<br><b>Parts Found</b></p><ul>';
 
 
-                // CHECK FOR TWO-WORD INSTRUMENT
-                if( (is_numeric($explosion[1]) == FALSE) && ($explosion[1] != NULL) ) {
-                    $instrument_name = $explosion[0] . ' ' . $explosion[1];
-                }
-                else {
-                    $instrument_name = $explosion[0];
-                }
+                //-- CYCLE THROUGH FILES OF CURRENT ARRANGEMENT --//
+                foreach( $files as $file ) {
+
+                    // Instrument Name (to cross-reference)
+                    $instrument_name = '';
 
 
-                // CHECK FOR INSTRUMENT VALIDITY
-                $match_found = in_array($instrument_name, $instrument_names);
+                    //-- Explode File Into Array of Strings --//
+                    $explosion = explode(" ", $file['name']);
 
-                if ( $match_found == null )
-                    $output .= '<span class="musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> Unrecognized Instrument: ' . $instrument_name . '</span>';
-                    // $output .= '(<i>Instrument Not Found. array_search: ' . $match_found . '</i>)';
-
-
-                // $output .= '</li>';
-
-            } // foreach file
+                    // Preview Name
+                    // $output .= '<li>' . $explosion[0] . ' ' . $explosion[1] . ' ' . $explosion[2];
 
 
-            // $output .= '</ul>';
+                    // CHECK FOR TWO-WORD INSTRUMENT
+                    if( (is_numeric($explosion[1]) == FALSE) && ($explosion[1] != NULL) ) {
+                        $instrument_name = $explosion[0] . ' ' . $explosion[1];
+                    }
+                    else {
+                        $instrument_name = $explosion[0];
+                    }
 
-            // Close Error Labels Wrap
+
+                    // CHECK FOR INSTRUMENT VALIDITY
+                    $match_found = in_array($instrument_name, $instrument_names);
+
+                    if ( $match_found == null )
+                        $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> Unrecognized Instrument: <b>' . $instrument_name . '</b></span>';
+                        // $output .= '(<i>Instrument Not Found. array_search: ' . $match_found . '</i>)';
+
+
+                    // $output .= '</li>';
+
+                } // foreach file
+
+
+                // $output .= '</ul>';
+
+                // Close Error Labels Wrap
+                $output .= '</div>';
+
+            // Close Arrangement Wrap
             $output .= '</div>';
 
             // Add Divider

@@ -331,7 +331,7 @@ function musicdistro_archive_shortcode( $atts ) {
 				$output .= '<div class="masonry-block masonry-block-size--one-whole masonry-breaker-block"></div>';
 
 				// Form
-				$output .= '<div class="block masonry-block masonry-block-size--two-thirds block-featured">';
+				$output .= '<div class="musicdistro-errorcheck-wrapper block masonry-block masonry-block-size--two-thirds block-featured">';
 					$output .= musicdistro_error_check();
 				$output .= '</div></div>';
 
