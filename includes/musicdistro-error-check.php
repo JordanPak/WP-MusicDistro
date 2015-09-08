@@ -92,6 +92,10 @@ function musicdistro_error_check() {
             $num_warnings = 0;
             $num_errors = 0;
 
+            // Warning & Error String Arrays
+            $warnings = array();
+            $errors = array();
+
 
             // Arrangement Wrapper
             $output .= '<div class="musicdistro-errorcheck-arrangement-wrapper">';
@@ -123,8 +127,7 @@ function musicdistro_error_check() {
 
                 // If No Terms
                 if ( $arrangement_terms == null ) {
-                    $num_warnings += 1;
-                    $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> Band Not Set</span>';
+                    $warnings[] = 'Band Not Set';
                 }
 
                 // // If terms found, list them
@@ -140,8 +143,7 @@ function musicdistro_error_check() {
 
                 // If No Tags
                 if ( $arrangement_tags == null ) {
-                    $num_warnings += 1;
-                    $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> No Arrangement Type</span>';
+                    $warnings[] = 'No Arrangement Type';
                 }
 
 
@@ -197,8 +199,7 @@ function musicdistro_error_check() {
 
                         // If a third string exists
                         if ( $explosion[2] != NULL ) {
-                            $num_errors += 1;
-                            $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> File Name Error: <b>' . $file['name'] . '</b></span>';
+                            $errors[] = 'File Name Error: <b>' . $file['name'] . '</b>';
                         }
 
                         // Set Part Number - If one-word instrument and second string exists (has to be a number)
@@ -214,14 +215,12 @@ function musicdistro_error_check() {
 
                         // If a fourth string exists
                         if ( $explosion[3] != NULL) {
-                            $num_errors += 1;
-                            $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> File Name Error: <b>' . $file['name'] . '</b></span>';
+                            $errors[] = 'File Name Error: <b>' . $file['name'] . '</b>';
                         }
 
                         // If a third string exists and it's not a number
                         else if ( ($explosion[2] != NULL) && (is_numeric($explosion[2]) == FALSE) ) {
-                            $num_errors += 1;
-                            $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> File Name Error: <b>' . $file['name'] . '</b></span>';
+                            $errors[] = 'File Name Error: <b>' . $file['name'] . '</b>';
                         }
 
                         // Set Part Number - If third string exists it has to be a part number; Double-check Through
@@ -236,15 +235,13 @@ function musicdistro_error_check() {
                     $match_found = in_array($instrument_name, $instrument_names);
 
                     if ( $match_found == null ) {
-                        $num_errors += 1;
-                        $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> Unrecognized Instrument: <b>' . $instrument_name . '</b></span>';
+                        $errors[] = 'Unrecognized Instrument: <b>' . $instrument_name . '</b>';
                     }
 
 
                     // CHECK PART NUMBER FEASIBILITY
                     if ( $part_number > 3 ) {
-                        $num_warnings += 1;
-                        $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> High Part Number: ' . $instrument_name . ' <b>' . $part_number . '</b></span>';
+                        $warnings[] = 'High Part Number: ' . $instrument_name . ' <b>' . $part_number . '</b>';
                     }
 
                     // $output .= '</li>';
@@ -256,9 +253,36 @@ function musicdistro_error_check() {
 
 
                 // NO ERRORS or WARNINGS?
-                if ( ($num_errors == 0) && ($num_warnings == 0) ) {
+                if ( (sizeof($errors) == 0) && (sizeof($warnings) == 0) ) {  // if ( ($num_errors == 0) && ($num_warnings == 0) ) {
                     $output .= '<span class="musicdistro-label musicdistro-label-noerror"><i class="fa fa-check-square-o"></i> No Errors Found</span>';
                 }
+
+                // Display Errors
+                else if ( sizeof($errors) > 0 ) {
+
+                    $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> <b>Errors</b><ul>';
+
+                        foreach ($errors as $error) {
+                            $output .= '<li>' . $error . '</li>';
+                        }
+
+                    $output .= '</ul></span>';
+
+                } // Display Errors
+
+
+                // Display Warnings
+                else if ( sizeof($warnings) > 0 ) {
+
+                    $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> <b>Warnings</b><ul>';
+
+                        foreach ($warnings as $warning) {
+                            $output .= '<li>' . $warning . '</li>';
+                        }
+
+                    $output .= '</ul></span>';
+
+                } // Display Warnings
 
 
                 // Close Error Labels Wrap
