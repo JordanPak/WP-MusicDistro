@@ -233,7 +233,12 @@ function musicdistro_error_check() {
                     // CHECK INSTRUMENT RECOGNITION //
                     $match_found = in_array($instrument_name, $instrument_names);
 
-                    if ( $match_found == null ) {
+                    // Spelled Piccolo wrong...
+                    if ( strtolower($instrument_name) == 'picollo') {
+                        $errors[] = '<b style="color: #D41F1A;">YOU SPELLED PICCOLO WRONG!</b>';
+                    }
+
+                    else if ( $match_found == null ) {
                         $errors[] = 'Unrecognized Instrument: <b>' . $instrument_name . '</b>';
                     }
 
