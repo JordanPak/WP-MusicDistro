@@ -234,14 +234,14 @@ function musicdistro_error_check() {
 
                     // Invalid URL
                     else if (filter_var($file['file'], FILTER_VALIDATE_URL) === FALSE) {
-                        $errors[] = 'Bad URL for <b>' . $instrument_name . '</b>';
+                        $errors[] = 'Bad URL for <b>' . $file['name'] . '</b>';
                     }
 
 
                     // CHECK FOR 404
                     $file_headers = @get_headers($file['file']);
                     if ( strpos($file_headers[0], '404') !== FALSE ) {
-                        $errors[] = 'File Not Found (404): <b>' . $instrument_name . '</b>';
+                        $errors[] = 'File Not Found (404): <b>' . $file['name'] . '</b>';
                     }
 
 
