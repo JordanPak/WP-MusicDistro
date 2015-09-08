@@ -62,3 +62,11 @@
 .musicdistro-label-error i.fa {
     color: #D41F1A;
 }
+
+.musicdistro-label-noerror {
+    border: none;
+}
+
+.musicdistro-label-noerror i.fa {
+    color: #5CB85C;
+}

@@ -89,6 +89,7 @@ function musicdistro_error_check() {
 
 
             // Error Counter
+            $num_errors = 0;
 
 
             // Arrangement Wrapper
@@ -120,8 +121,10 @@ function musicdistro_error_check() {
                 $arrangement_terms = wp_get_post_terms( $arrangement, 'download_category' );
 
                 // If No Terms
-                if ( $arrangement_terms == null )
+                if ( $arrangement_terms == null ) {
+                    $num_errors += 1;
                     $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> Band Not Set</span>';
+                }
 
                 // // If terms found, list them
                 // else {
@@ -135,8 +138,10 @@ function musicdistro_error_check() {
                 $arrangement_tags = wp_get_object_terms( $arrangement, 'download_tag');
 
                 // If No Tags
-                if ( $arrangement_tags == null )
+                if ( $arrangement_tags == null ) {
+                    $num_errors += 1;
                     $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> No Arrangement Type</span>';
+                }
 
 
                 //-- Arrangement FILES & URLS --//
@@ -173,10 +178,11 @@ function musicdistro_error_check() {
                     // CHECK FOR INSTRUMENT VALIDITY
                     $match_found = in_array($instrument_name, $instrument_names);
 
-                    if ( $match_found == null )
+                    if ( $match_found == null ) {
+                        $num_errors += 1;
                         $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> Unrecognized Instrument: <b>' . $instrument_name . '</b></span>';
                         // $output .= '(<i>Instrument Not Found. array_search: ' . $match_found . '</i>)';
-
+                    }
 
                     // $output .= '</li>';
 
@@ -185,11 +191,19 @@ function musicdistro_error_check() {
 
                 // $output .= '</ul>';
 
+
+                // NO ERRORS?
+                if ( $num_errors == 0 ) {
+                    $output .= '<span class="musicdistro-label musicdistro-label-noerror"><i class="fa fa-check-square-o"></i> No Errors Found</span>';
+                }
+
+
                 // Close Error Labels Wrap
                 $output .= '</div>';
 
             // Close Arrangement Wrap
             $output .= '</div>';
+
 
             // Add Divider
             $output .= '<hr>';
