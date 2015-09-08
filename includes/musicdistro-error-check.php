@@ -68,16 +68,15 @@ function musicdistro_error_check() {
         $instrument_names = array(); // Array of instrument Names
 
 
-        $output .= '<p><b>Instruments &amp; Bands Found:</b><br>';
+        $output .= '<p><b>Instruments &amp; Bands Found:</b></p><ul>';
 
         foreach ($instrument_categories as $instrument_category) {
-            $output .= $instrument_category->name . '<br>';
+            $output .= '<li>' . $instrument_category->name . '</li>';
             $instrument_names[] = $instrument_category->name;
         }
 
-        $output .= '</p>';
+        $output .= '</ul><hr>';
 
-        $output .= print_r($instrument_names);
 
         //-- CYCLE THROUGH ARRANGEMENTS --//
 
@@ -95,7 +94,7 @@ function musicdistro_error_check() {
 
             //-- Get Files (Names & URLSs) For Current Arrangement --//
             $files = edd_get_download_files( $arrangement );
-
+            
 
             $output .= '<br>Parts found for...<br><br><ul>';
 
@@ -114,12 +113,18 @@ function musicdistro_error_check() {
 
                 // CHECK FOR TWO-WORD INSTRUMENT
                 if( (is_numeric($explosion[1]) == FALSE) && ($explosion[1] != NULL) ) {
-                    $output .= '<span> &nbsp;&nbsp;(Two-word instrument)</span>';
                     $instrument_name = $explosion[0] . ' ' . $explosion[1];
                 }
                 else {
                     $instrument_name = $explosion[0];
                 }
+
+                $match_found = array_search($instrument_name, $instrument_names);
+
+                if ( $match_found == '' )
+                    $output .= '(<i>Instrument Not Found!</i>)';
+
+                // $output .= '<br>Match Found: ' . $match_found . '<br><br>';
 
                 // $match_found = in_array($instrument_name, $true_instrument_names);
                 // $output .= '&nbsp;&nbsp;&nbsp;&nbsp;Match Found: ' . print_r($match_found);

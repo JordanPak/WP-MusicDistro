@@ -331,8 +331,13 @@ function musicdistro_archive_shortcode( $atts ) {
 				$output .= '<div class="masonry-block masonry-block-size--one-whole masonry-breaker-block"></div>';
 
 				// Form
-				$output .= '<div class="block masonry-block masonry-block-size--two-thirds block-featured"><p><b>Media Coordinator Error Checking</b></p>' . musicdistro_error_check() . '</div>';
-			}
+				$output .= '<div class="block masonry-block masonry-block-size--two-thirds block-featured">';
+					$output .= '<div class="entry-content"><p><b>Media Coordinator Error Checking</b></p>';
+					$output .= musicdistro_error_check();
+				$output .= '</div></div>';
+
+			} // If user is Shop Manager or Admin
+			
 
         // Close Grid
         $output .= '</section>';
