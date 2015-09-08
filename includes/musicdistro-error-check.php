@@ -210,9 +210,9 @@ function musicdistro_error_check() {
                         }
 
                         // If a third string exists and it's not a number
-                        if ( ($explosion[2] != NULL) && (is_numeric($explosion[2]) == FALSE) ) {
+                        else if ( ($explosion[2] != NULL) && (is_numeric($explosion[2]) == FALSE) ) {
                             $num_errors += 1;
-                            $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> File Name Error: <b>' . $file['name'] . '</b></span>';                            
+                            $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> File Name Error: <b>' . $file['name'] . '</b></span>';
                         }
 
                     } // If one-word instrument Checks
