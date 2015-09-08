@@ -67,15 +67,15 @@ function musicdistro_error_check() {
 
 
         // Bands & Instruments Found Label
-        $output .= '<p><b>Instruments &amp; Bands Found:</b></p><ul>';
+        // $output .= '<p><b>Instruments &amp; Bands Found:</b></p><ul>';
 
         // Cycle Through Each Category/Band/Instrument and Display Name
         foreach ($instrument_categories as $instrument_category) {
-            $output .= '<li>' . $instrument_category->name . '</li>';
+            // $output .= '<li>' . $instrument_category->name . '</li>';
             $instrument_names[] = $instrument_category->name;
         }
 
-        $output .= '</ul><hr>';
+        // $output .= '</ul><hr>';
 
 
 
@@ -88,11 +88,15 @@ function musicdistro_error_check() {
 
 
             // Arrangement TITLE
-            $output .=  '<h4 style="margin-bottom: 20px;">' . get_the_title( $arrangement ) . '</h4>';
+            $output .=  '<b>' . get_the_title( $arrangement ) . '</b>';
+
+
+            // Error Labels Wrapper
+            $output .= '<div class="musicdistro-error-labels">';
 
 
             // Arrangement Terms (Band / Bands) Label
-            $output .= '<p><b>Band(s):</b> ';
+            // $output .= '<p><b>Band(s):</b> ';
 
 
             // TERMS
@@ -100,14 +104,14 @@ function musicdistro_error_check() {
 
             // If No Terms
             if ($arrangement_terms == null)
-                $output .= '<i style="color:red;">No Band Found</i>';
+                $output .= '<span class="musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> Warning: No Band</span>';
 
-            // If terms found, list them
-            else {
-                foreach ($arrangement_terms as $arrangement_term) {
-                    $output .= $arrangement_term->name . ' ';
-                }
-            }
+            // // If terms found, list them
+            // else {
+            //     foreach ($arrangement_terms as $arrangement_term) {
+            //         $output .= $arrangement_term->name . ' ';
+            //     }
+            // }
 
 
 
@@ -116,7 +120,7 @@ function musicdistro_error_check() {
 
 
             // Parts Found Label
-            $output .= '<br><b>Parts Found</b></p><ul>';
+            // $output .= '<br><b>Parts Found</b></p><ul>';
 
 
             //-- CYCLE THROUGH FILES OF CURRENT ARRANGEMENT --//
@@ -130,7 +134,7 @@ function musicdistro_error_check() {
                 $explosion = explode(" ", $file['name']);
 
                 // Preview Name
-                $output .= '<li>' . $explosion[0] . ' ' . $explosion[1] . ' ' . $explosion[2];
+                // $output .= '<li>' . $explosion[0] . ' ' . $explosion[1] . ' ' . $explosion[2];
 
 
                 // CHECK FOR TWO-WORD INSTRUMENT
@@ -146,17 +150,21 @@ function musicdistro_error_check() {
                 $match_found = in_array($instrument_name, $instrument_names);
 
                 if ( $match_found == null )
-                    $output .= '(<i>Instrument Not Found</i>)';
+                    $output .= '<span class="musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> Unrecognized Instrument: ' . $instrument_name . '</span>';
                     // $output .= '(<i>Instrument Not Found. array_search: ' . $match_found . '</i>)';
 
 
-                $output .= '</li>';
+                // $output .= '</li>';
 
             } // foreach file
 
 
-            $output .= '</ul>';
+            // $output .= '</ul>';
 
+            // Close Error Labels Wrap
+            $output .= '</div>';
+
+            // Add Divider
             $output .= '<hr>';
 
         } // foreach: arrangements as arrangement
