@@ -12,29 +12,6 @@
     display: none;
 }
 
-.musicdistro-errorcheck-header {
-    display: block;
-    margin-bottom: 50px;
-    padding-bottom: 0px;
-    width: 100%;
-    border-bottom: 2px solid #D4D4D4;
-}
-
-.musicdistro-errorcheck-header:before {
-    content: " ";
-    display: table;
-}
-
-.musicdistro-errorcheck-header:after {
-    clear: both;
-    content: " ";
-    display: table;
-}
-
-.musicdistro-errorcheck-header h3 {
-    display: inline-block;
-}
-
 .musicdistro-errorcheck-arrangement-wrapper:before {
     content: " ";
     display: table;
@@ -57,7 +34,7 @@
 .musicdistro-error-labels {
     display: inline-block;
     float: right;
-    width: 40%;
+    width: 45%;
     font-size: 14px;
 }
 
