@@ -4,12 +4,24 @@
     @author Jordan Pakrosnis
 */
 
-.musicdistro-errorcheck-wrapper hr {
-    margin: 20px 0;
+.musicdistro-errorcheck-wrapper {
+    padding: 0;
 }
 
-.musicdistro-errorcheck-wrapper hr:last-child {
-    display: none;
+.musicdistro-error-check-form {
+    padding: 20px;
+}
+
+.musicdistro-errorcheck-arrangement-wrapper {
+    background: #F5F5F5;
+    padding: 20px;
+    border-top: 1px solid #D4D4D4;
+    -webkit-transition: all ease-in-out 100ms;
+            transition: all ease-in-out 100ms;
+}
+
+.musicdistro-errorcheck-arrangement-wrapper:hover {
+    background: #FFFFFF;
 }
 
 .musicdistro-errorcheck-arrangement-wrapper:before {

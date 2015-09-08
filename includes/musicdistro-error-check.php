@@ -15,14 +15,13 @@ function musicdistro_error_check() {
     $selected = isset($_REQUEST['do-error-check']);
 
     // Display form
-    $output .= '<form role="form"><button class="button button-outline button-red" type="submit" name="do-error-check">Check For Errors</button></form>';
+    $output .= '<form class="musicdistro-error-check-form" role="form">';
+        $output .= '<button class="button button-outline button-red" type="submit" name="do-error-check">Check For Errors</button>';
+    $output .= '</form>';
 
 
     // Check if Selected
     if ( $selected ) {
-
-        // Spacer
-        $output .= '<br>';
 
 
         // Arrangements Query Args
@@ -69,11 +68,8 @@ function musicdistro_error_check() {
 
         // Cycle Through Each Category/Band/Instrument and Display Name
         foreach ($instrument_categories as $instrument_category) {
-            // $output .= '<li>' . $instrument_category->name . '</li>';
             $instrument_names[] = $instrument_category->name;
         }
-
-        // $output .= '</ul><hr>';
 
 
         //-- CYCLE THROUGH ARRANGEMENTS --//
@@ -252,8 +248,6 @@ function musicdistro_error_check() {
                 } // foreach file
 
 
-                // $output .= '</ul>';
-
 
                 // NO ERRORS or WARNINGS?
                 if ( (sizeof($errors) == 0) && (sizeof($warnings) == 0) ) {  // if ( ($num_errors == 0) && ($num_warnings == 0) ) {
@@ -302,9 +296,6 @@ function musicdistro_error_check() {
             // Close Arrangement Wrap
             $output .= '</div>';
 
-
-            // Add Divider
-            $output .= '<hr>';
 
         } // foreach: arrangements as arrangement
 
