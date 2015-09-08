@@ -103,11 +103,11 @@ function musicdistro_error_check() {
             // $output .= '<p><b>Band(s):</b> ';
 
 
-            // TERMS
+            // Arrangement TERMS
             $arrangement_terms = wp_get_post_terms( $arrangement, 'download_category' );
 
             // If No Terms
-            if ($arrangement_terms == null)
+            if ( $arrangement_terms == null )
                 $output .= '<span class="musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> Band Not Set</span>';
 
             // // If terms found, list them
@@ -117,6 +117,15 @@ function musicdistro_error_check() {
             //     }
             // }
 
+
+            // Arrangement TAGS (Song Types)
+            $arrangement_tags = wp_get_object_terms( $arrangement, 'download_tag');
+
+            var_dump($arrangement_tags);
+
+            // If No Tags
+            if ( $arrangement_tags == null )
+                $output .= '<span class="musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> No Arrangement Type</span>';
 
 
             //-- Arrangement FILES & URLS --//
