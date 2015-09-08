@@ -88,7 +88,8 @@ function musicdistro_error_check() {
             $object = get_post( $arrangement );
 
 
-            // Error Counter
+            // Warning & Error Counters
+            $num_warnings = 0;
             $num_errors = 0;
 
 
@@ -122,7 +123,7 @@ function musicdistro_error_check() {
 
                 // If No Terms
                 if ( $arrangement_terms == null ) {
-                    $num_errors += 1;
+                    $num_warnings += 1;
                     $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> Band Not Set</span>';
                 }
 
@@ -139,7 +140,7 @@ function musicdistro_error_check() {
 
                 // If No Tags
                 if ( $arrangement_tags == null ) {
-                    $num_errors += 1;
+                    $num_warnings += 1;
                     $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> No Arrangement Type</span>';
                 }
 
@@ -242,7 +243,7 @@ function musicdistro_error_check() {
 
                     // CHECK PART NUMBER FEASIBILITY
                     if ( $part_number > 3 ) {
-                        $num_errors += 1;
+                        $num_warnings += 1;
                         $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> High Part Number: ' . $instrument_name . ' <b>' . $part_number . '</b></span>';
                     }
 
@@ -254,8 +255,8 @@ function musicdistro_error_check() {
                 // $output .= '</ul>';
 
 
-                // NO ERRORS?
-                if ( $num_errors == 0 ) {
+                // NO ERRORS or WARNINGS?
+                if ( ($num_errors == 0) && ($num_warnings == 0) ) {
                     $output .= '<span class="musicdistro-label musicdistro-label-noerror"><i class="fa fa-check-square-o"></i> No Errors Found</span>';
                 }
 
