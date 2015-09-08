@@ -260,6 +260,13 @@ function musicdistro_error_check() {
                     }
 
 
+                    // CHECK FOR 404
+                    $file_headers = @get_headers($file['file']);
+                    if ( strpos($file_headers[0], '404') !== FALSE ) {
+                        $errors[] = 'File Not Found (404): <b>' . $instrument_name . '</b>';
+                    }
+
+
                 } // foreach file
 
 
@@ -321,6 +328,7 @@ function musicdistro_error_check() {
 
 
     } // if $selected
+
 
     return $output;
 

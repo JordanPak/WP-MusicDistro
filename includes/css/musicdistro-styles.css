@@ -41,7 +41,7 @@
 .musicdistro-label {
     display: inline-block;
     margin: 0 5px 15px 0;
-    padding: 2px 8px;
+    padding: 2px 0 2px 10px;
     border-left: solid 2px;
 }
 
@@ -84,7 +84,5 @@
 
 .musicdistro-errorcheck-resolve {
     color: #428BCA;
-    /*border-left: 2px solid #428BCA;*/
-    /*border-bottom: 1px solid #428BCA;*/
     padding-left: 8px;
 }
