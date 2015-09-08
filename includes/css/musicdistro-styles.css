@@ -12,6 +12,11 @@
     padding: 20px;
 }
 
+.musicdistro-errorcheck-disclaimer {
+    display: block;
+    padding: 0 20px;
+}
+
 .musicdistro-errorcheck-arrangement-wrapper {
     background: #F5F5F5;
     padding: 20px;

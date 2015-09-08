@@ -43,6 +43,10 @@ function musicdistro_error_check() {
             $output .=  '<i class="fa fa-exclamation-triangle"></i> No arrangements found!';
 
 
+        // DISCLAIMER
+        $output .= '<span class="musicdistro-errorcheck-disclaimer"><p><b>Please Note: </b> This feature is <u>not guaranteed</u> to detect all errors. If something is not working properly with an arrangment (even if no errors are found), the arrangement post should be opened and scutinized.</p></span>';
+
+
         // GET ARRANGEMENT POSTS
         $arrangements = $arrangements->get_posts();
 
