@@ -62,9 +62,22 @@ function musicdistro_error_check() {
             'taxonomy' => 'download_category'
         );
 
-        $true_instrument_names = get_categories($get_categories_args);
-        print_r($true_instrument_names);
+        $instrument_categories = get_categories($get_categories_args);
 
+
+        $instrument_names = array(); // Array of instrument Names
+
+
+        $output .= '<p><b>Instruments &amp; Bands Found:</b><br>';
+
+        foreach ($instrument_categories as $instrument_category) {
+            $output .= $instrument_category->name . '<br>';
+            $instrument_names[] = $instrument_category->name;
+        }
+
+        $output .= '</p>';
+
+        $output .= print_r($instrument_names);
 
         //-- CYCLE THROUGH ARRANGEMENTS --//
 
@@ -108,9 +121,8 @@ function musicdistro_error_check() {
                     $instrument_name = $explosion[0];
                 }
 
-                $match_found = in_array($instrument_name, $true_instrument_names);
-
-                $output .= '&nbsp;&nbsp;&nbsp;&nbsp;Match Found: ' . print_r($match_found);
+                // $match_found = in_array($instrument_name, $true_instrument_names);
+                // $output .= '&nbsp;&nbsp;&nbsp;&nbsp;Match Found: ' . print_r($match_found);
 
                 $output .= '</li>';
 
