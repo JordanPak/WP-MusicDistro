@@ -9,9 +9,9 @@ Author URI:  http://JordanPak.com/
 */
 
 
-//===========//
-//  INCLUDES //
-//===========//
+//============//
+//  INCLUDES  //
+//============//
 
 // Admin
 require_once( 'includes/admin/musicdistro-admin.php' );
@@ -24,3 +24,15 @@ require_once( 'includes/shortcodes/musicdistro-archive-shortcode.php' );
 
 // Error Checking
 require_once( 'includes/musicdistro-error-check.php' );
+
+
+
+//==========//
+//  STYLES  //
+//==========//
+
+// ENQUEUE GLOBAL STYLES
+add_action( 'wp_enqueue_scripts', 'musicdistro_styles' );
+function musicdistro_styles() {
+    wp_enqueue_style( 'musicdistro',  plugins_url() . '/wp-musicdistro/includes/css/musicdistro-styles.css', array() );
+} // musicdistro_styles()
