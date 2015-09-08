@@ -51,6 +51,11 @@
 
 .musicdistro-label ul {
     margin-left: 17px;
+    margin-right: 40px;
+}
+
+.musicdistro-label:last-child ul {
+    margin-right: 0;
 }
 
 .musicdistro-label li {
