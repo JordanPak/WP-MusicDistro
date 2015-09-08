@@ -157,6 +157,7 @@ function musicdistro_error_check() {
 
                     // Instrument Name (to cross-reference)
                     $instrument_name = '';
+                    $instrument_name_words = 0;
 
 
                     //-- Explode File Into Array of Strings --//
@@ -166,16 +167,58 @@ function musicdistro_error_check() {
                     // $output .= '<li>' . $explosion[0] . ' ' . $explosion[1] . ' ' . $explosion[2];
 
 
-                    // CHECK FOR TWO-WORD INSTRUMENT
+                    // CHECK FOR TWO-WORD INSTRUMENT //
+                    // Second String ISN'T a Number and isn't Null
                     if( (is_numeric($explosion[1]) == FALSE) && ($explosion[1] != NULL) ) {
                         $instrument_name = $explosion[0] . ' ' . $explosion[1];
-                    }
-                    else {
-                        $instrument_name = $explosion[0];
+                        $instrument_name_words = 2;
                     }
 
 
-                    // CHECK FOR INSTRUMENT VALIDITY
+                    // CHECK FOR ONE-WORD INSTRUMENT //
+                    // First String Isn't Number
+                    else if ( is_numeric($explosion[0]) == FALSE ) {
+
+                        // Second String IS a number or doesn't exist
+                        if ( (is_numeric($explosion[1]) == TRUE) || ($explosion[1] == NULL) ) {
+                            $instrument_name = $explosion[0];
+                            $instrument_name_words = 1;
+                        }
+
+                    } // First string isn't a number
+
+
+                    // ONE-WORD Checks
+                    if ( $instrument_name_words == 1 ) {
+
+                        // If a third string exists
+                        if ( $explosion[2] != NULL ) {
+                            $num_errors += 1;
+                            $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> File Name Error: <b>' . $file['name'] . '</b></span>';
+                        }
+
+                    } // If one-word instrument Checks
+
+
+                    // TWO-WORD Checks
+                    if ( $instrument_name_words == 2 ) {
+
+                        // If a fourth string exists
+                        if ( $explosion[3] != NULL) {
+                            $num_errors += 1;
+                            $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> File Name Error: <b>' . $file['name'] . '</b></span>';
+                        }
+
+                        // If a third string exists and it's not a number
+                        if ( ($explosion[2] != NULL) && (is_numeric($explosion[2]) == FALSE) ) {
+                            $num_errors += 1;
+                            $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> File Name Error: <b>' . $file['name'] . '</b></span>';                            
+                        }
+
+                    } // If one-word instrument Checks
+
+
+                    // CHECK INSTRUMENT RECOGNITION
                     $match_found = in_array($instrument_name, $instrument_names);
 
                     if ( $match_found == null ) {
