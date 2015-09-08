@@ -332,12 +332,11 @@ function musicdistro_archive_shortcode( $atts ) {
 
 				// Form
 				$output .= '<div class="block masonry-block masonry-block-size--two-thirds block-featured">';
-					$output .= '<div class="entry-content"><p><b>Media Coordinator Error Checking</b></p>';
 					$output .= musicdistro_error_check();
 				$output .= '</div></div>';
 
 			} // If user is Shop Manager or Admin
-			
+
 
         // Close Grid
         $output .= '</section>';

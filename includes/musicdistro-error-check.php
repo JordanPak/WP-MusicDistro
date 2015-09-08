@@ -15,7 +15,7 @@ function musicdistro_error_check() {
     $selected = isset($_REQUEST['do-error-check']);
 
     // Display form
-    $output .= '<form role="form"><button class="button button-red" type="submit" name="do-error-check">START CHECK</button></form>';
+    $output .= '<form role="form"><button class="button button-outline button-red" type="submit" name="do-error-check">Check For Errors</button></form>';
 
 
     // Check if Selected
@@ -31,7 +31,8 @@ function musicdistro_error_check() {
             'fields'            => 'ids',                       // This is so only the ID is returned instead of the WHOLE post object (Performance)
             'orderby'           => 'title',
             'order'             => 'ASC',
-            'posts_per_page'    => -1
+            'posts_per_page'    => -1,
+            'post_status'       => 'any',
         );
 
         // ARRAY OF ALL ARRANGEMENTS
@@ -91,6 +92,11 @@ function musicdistro_error_check() {
             $output .=  '<b>' . get_the_title( $arrangement ) . '</b>';
 
 
+            // Arrangement POST STATUS
+            if ( get_post_status( $arrangement ) != 'publish' )
+                $output .= ' <span class="musicdistro-errorcheck-unpublished">(unpublished)</span> ';
+
+
             // Arrangement Post Edit link
             $output .= '<a class="musicdistro-errorcheck-post-link" href="' . get_edit_post_link($arrangement) . '" target="_BLANK"><i class="fa fa-edit"></i></a>';
 
@@ -120,8 +126,6 @@ function musicdistro_error_check() {
 
             // Arrangement TAGS (Song Types)
             $arrangement_tags = wp_get_object_terms( $arrangement, 'download_tag');
-
-            var_dump($arrangement_tags);
 
             // If No Tags
             if ( $arrangement_tags == null )
