@@ -67,9 +67,6 @@ function musicdistro_error_check() {
         $instrument_names = array();
 
 
-        // Bands & Instruments Found Label
-        // $output .= '<p><b>Instruments &amp; Bands Found:</b></p><ul>';
-
         // Cycle Through Each Category/Band/Instrument and Display Name
         foreach ($instrument_categories as $instrument_category) {
             // $output .= '<li>' . $instrument_category->name . '</li>';
@@ -110,15 +107,11 @@ function musicdistro_error_check() {
 
 
                 // Arrangement Post Edit link
-                $output .= '<a class="musicdistro-errorcheck-post-link" href="' . get_edit_post_link($arrangement) . '" target="_BLANK"><i class="fa fa-edit"></i></a>';
+                $output .= '<a class="musicdistro-errorcheck-post-link" title="Edit Arrangement" href="' . get_edit_post_link($arrangement) . '" target="_BLANK"><i class="fa fa-edit"></i></a>';
 
 
                 // Error Labels Wrapper
                 $output .= '<div class="musicdistro-error-labels">';
-
-
-                // Arrangement Terms (Band / Bands) Label
-                // $output .= '<p><b>Band(s):</b> ';
 
 
                 // Arrangement TERMS
@@ -128,13 +121,6 @@ function musicdistro_error_check() {
                 if ( $arrangement_terms == null ) {
                     $warnings[] = 'Band Not Set';
                 }
-
-                // // If terms found, list them
-                // else {
-                //     foreach ($arrangement_terms as $arrangement_term) {
-                //         $output .= $arrangement_term->name . ' ';
-                //     }
-                // }
 
 
                 // Arrangement TAGS (Song Types)
@@ -148,10 +134,6 @@ function musicdistro_error_check() {
 
                 //-- Arrangement FILES & URLS --//
                 $files = edd_get_download_files( $arrangement );
-
-
-                // Parts Found Label
-                // $output .= '<br><b>Parts Found</b></p><ul>';
 
 
                 //-- CYCLE THROUGH FILES OF CURRENT ARRANGEMENT --//
@@ -168,8 +150,6 @@ function musicdistro_error_check() {
                     //-- Explode File Into Array of Strings --//
                     $explosion = explode(" ", $file['name']);
 
-                    // Preview Name
-                    // $output .= '<li>' . $explosion[0] . ' ' . $explosion[1] . ' ' . $explosion[2];
 
 
                     // CHECK FOR TWO-WORD INSTRUMENT //
@@ -248,8 +228,6 @@ function musicdistro_error_check() {
                         $warnings[] = 'High Part Number: ' . $instrument_name . ' <b>' . $part_number . '</b>';
                     }
 
-                    // $output .= '</li>';
-
 
                     // CHECK URL VALIDITY //
 
@@ -313,7 +291,7 @@ function musicdistro_error_check() {
 
 
                     // Resolve link
-                    $output .= '<br><a class="musicdistro-errorcheck-resolve" target="_BLANK" href="' . get_edit_post_link($arrangement) . '"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Click To Resolve</a>';
+                    $output .= '<br><a class="musicdistro-errorcheck-resolve" target="_BLANK" title="Edit Arrangement" href="' . get_edit_post_link($arrangement) . '"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Click To Resolve</a>';
 
 
                 } // If Errors or Warnings found
