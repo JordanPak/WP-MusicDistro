@@ -159,6 +159,9 @@ function musicdistro_error_check() {
                     $instrument_name = '';
                     $instrument_name_words = 0;
 
+                    // Instrument Part Number
+                    $part_number = NULL;
+
 
                     //-- Explode File Into Array of Strings --//
                     $explosion = explode(" ", $file['name']);
@@ -188,7 +191,7 @@ function musicdistro_error_check() {
                     } // First string isn't a number
 
 
-                    // ONE-WORD Checks
+                    // ONE-WORD Checks & Sets
                     if ( $instrument_name_words == 1 ) {
 
                         // If a third string exists
@@ -197,10 +200,15 @@ function musicdistro_error_check() {
                             $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> File Name Error: <b>' . $file['name'] . '</b></span>';
                         }
 
+                        // Set Part Number - If one-word instrument and second string exists (has to be a number)
+                        if ( $explosion[1] != NULL ) {
+                            $part_number = $explosion[1];
+                        }
+
                     } // If one-word instrument Checks
 
 
-                    // TWO-WORD Checks
+                    // TWO-WORD Checks & Sets
                     if ( $instrument_name_words == 2 ) {
 
                         // If a fourth string exists
@@ -215,6 +223,11 @@ function musicdistro_error_check() {
                             $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> File Name Error: <b>' . $file['name'] . '</b></span>';
                         }
 
+                        // Set Part Number - If third string exists it has to be a part number; Double-check Through
+                        if ( ($explosion[2] != NULL) && (is_numeric($explosion[2]) == TRUE) ) {
+                            $part_number = $explosion[2];
+                        }
+
                     } // If one-word instrument Checks
 
 
@@ -224,7 +237,13 @@ function musicdistro_error_check() {
                     if ( $match_found == null ) {
                         $num_errors += 1;
                         $output .= '<span class="musicdistro-label musicdistro-label-error"><i class="fa fa-exclamation-triangle"></i> Unrecognized Instrument: <b>' . $instrument_name . '</b></span>';
-                        // $output .= '(<i>Instrument Not Found. array_search: ' . $match_found . '</i>)';
+                    }
+
+
+                    // CHECK PART NUMBER FEASIBILITY
+                    if ( $part_number > 3 ) {
+                        $num_errors += 1;
+                        $output .= '<span class="musicdistro-label musicdistro-label-warning"><i class="fa fa-exclamation-triangle"></i> High Part Number: ' . $instrument_name . ' <b>' . $part_number . '</b></span>';
                     }
 
                     // $output .= '</li>';
