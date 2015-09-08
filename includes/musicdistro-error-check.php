@@ -19,8 +19,8 @@ function musicdistro_error_check() {
 
 
     // Check if Selected
-    if ( $selected )
-    {
+    if ( $selected ) {
+
         // Spacer
         $output .= '<br>';
 
@@ -37,11 +37,10 @@ function musicdistro_error_check() {
         // ARRAY OF ALL ARRANGEMENTS
         $arrangements = new WP_Query( $arrangementSelection );
 
+
         // No Arrangements Found
         if( ($arrangements->have_posts()) == false )
-            $output .=  '
-                    <i class="fa fa-exclamation-triangle"></i> No arrangements found!
-            ';
+            $output .=  '<i class="fa fa-exclamation-triangle"></i> No arrangements found!';
 
 
         // GET ARRANGEMENT POSTS
@@ -52,7 +51,6 @@ function musicdistro_error_check() {
         $tags = wp_get_object_terms( $arrangements, 'download_tag');
 
 
-
         // GET TRUE CATEGORIES (INSTRUMENTS)
         $get_categories_args = array(
             'type' => 'download',
@@ -61,15 +59,17 @@ function musicdistro_error_check() {
             'hide_empty' => 0,
             'taxonomy' => 'download_category'
         );
-
         $instrument_categories = get_categories($get_categories_args);
 
 
-        $instrument_names = array(); // Array of instrument Names
+        // Array of Instrument Names
+        $instrument_names = array();
 
 
+        // Bands & Instruments Found Label
         $output .= '<p><b>Instruments &amp; Bands Found:</b></p><ul>';
 
+        // Cycle Through Each Category/Band/Instrument and Display Name
         foreach ($instrument_categories as $instrument_category) {
             $output .= '<li>' . $instrument_category->name . '</li>';
             $instrument_names[] = $instrument_category->name;
@@ -78,25 +78,45 @@ function musicdistro_error_check() {
         $output .= '</ul><hr>';
 
 
+
         //-- CYCLE THROUGH ARRANGEMENTS --//
-
-        // Just the IDs of the arrangements
-        foreach( $arrangements as $arrangement ) {
+        foreach( $arrangements as $arrangement ) { // IDs
 
 
-            // Get the arrangement post from the ID
+            // Get Arrangement POST
             $object = get_post( $arrangement );
 
 
-            // Arrangement Title
-            $output .=  '<span class="musicdistro-arrangement-title">' . get_the_title( $arrangement ) . '</span>';
+            // Arrangement TITLE
+            $output .=  '<h4 style="margin-bottom: 20px;">' . get_the_title( $arrangement ) . '</h4>';
 
 
-            //-- Get Files (Names & URLSs) For Current Arrangement --//
+            // Arrangement Terms (Band / Bands) Label
+            $output .= '<p><b>Band(s):</b> ';
+
+
+            // TERMS
+            $arrangement_terms = wp_get_post_terms( $arrangement, 'download_category' );
+
+            // If No Terms
+            if ($arrangement_terms == null)
+                $output .= '<i style="color:red;">No Band Found</i>';
+
+            // If terms found, list them
+            else {
+                foreach ($arrangement_terms as $arrangement_term) {
+                    $output .= $arrangement_term->name . ' ';
+                }
+            }
+
+
+
+            //-- Arrangement FILES & URLS --//
             $files = edd_get_download_files( $arrangement );
-            
 
-            $output .= '<br>Parts found for...<br><br><ul>';
+
+            // Parts Found Label
+            $output .= '<br><b>Parts Found</b></p><ul>';
 
 
             //-- CYCLE THROUGH FILES OF CURRENT ARRANGEMENT --//
@@ -105,9 +125,11 @@ function musicdistro_error_check() {
                 // Instrument Name (to cross-reference)
                 $instrument_name = '';
 
+
                 //-- Explode File Into Array of Strings --//
                 $explosion = explode(" ", $file['name']);
 
+                // Preview Name
                 $output .= '<li>' . $explosion[0] . ' ' . $explosion[1] . ' ' . $explosion[2];
 
 
@@ -119,30 +141,25 @@ function musicdistro_error_check() {
                     $instrument_name = $explosion[0];
                 }
 
-                $match_found = array_search($instrument_name, $instrument_names);
 
-                if ( $match_found == '' )
-                    $output .= '(<i>Instrument Not Found!</i>)';
+                // CHECK FOR INSTRUMENT VALIDITY
+                $match_found = in_array($instrument_name, $instrument_names);
 
-                // $output .= '<br>Match Found: ' . $match_found . '<br><br>';
+                if ( $match_found == null )
+                    $output .= '(<i>Instrument Not Found</i>)';
+                    // $output .= '(<i>Instrument Not Found. array_search: ' . $match_found . '</i>)';
 
-                // $match_found = in_array($instrument_name, $true_instrument_names);
-                // $output .= '&nbsp;&nbsp;&nbsp;&nbsp;Match Found: ' . print_r($match_found);
 
                 $output .= '</li>';
 
             } // foreach file
 
-            $output .= '</ul>';
 
+            $output .= '</ul>';
 
             $output .= '<hr>';
 
         } // foreach: arrangements as arrangement
-
-
-
-
 
 
     } // if $selected
