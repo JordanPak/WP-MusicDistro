@@ -15,14 +15,13 @@ function musicdistro_error_check() {
     $selected = isset($_REQUEST['do-error-check']);
 
     // Display form
-    $output .= '<form role="form"><button class="button button-outline button-red" type="submit" name="do-error-check">Check For Errors</button></form>';
+    $output .= '<form class="musicdistro-error-check-form" role="form">';
+        $output .= '<button class="button button-outline button-red" type="submit" name="do-error-check">Check For Errors</button>';
+    $output .= '</form>';
 
 
     // Check if Selected
     if ( $selected ) {
-
-        // Spacer
-        $output .= '<br>';
 
 
         // Arrangements Query Args
@@ -42,6 +41,10 @@ function musicdistro_error_check() {
         // No Arrangements Found
         if( ($arrangements->have_posts()) == false )
             $output .=  '<i class="fa fa-exclamation-triangle"></i> No arrangements found!';
+
+
+        // DISCLAIMER
+        $output .= '<span class="musicdistro-errorcheck-disclaimer"><p><b>Please Note: </b> This feature is <u>not guaranteed</u> to detect all errors. If something is not working properly with an arrangment (even if no errors are found), the arrangement post should be opened and scutinized.</p></span>';
 
 
         // GET ARRANGEMENT POSTS
@@ -69,11 +72,8 @@ function musicdistro_error_check() {
 
         // Cycle Through Each Category/Band/Instrument and Display Name
         foreach ($instrument_categories as $instrument_category) {
-            // $output .= '<li>' . $instrument_category->name . '</li>';
             $instrument_names[] = $instrument_category->name;
         }
-
-        // $output .= '</ul><hr>';
 
 
         //-- CYCLE THROUGH ARRANGEMENTS --//
@@ -238,21 +238,19 @@ function musicdistro_error_check() {
 
                     // Invalid URL
                     else if (filter_var($file['file'], FILTER_VALIDATE_URL) === FALSE) {
-                        $errors[] = 'Bad URL for <b>' . $instrument_name . '</b>';
+                        $errors[] = 'Bad URL for <b>' . $file['name'] . '</b>';
                     }
 
 
                     // CHECK FOR 404
                     $file_headers = @get_headers($file['file']);
                     if ( strpos($file_headers[0], '404') !== FALSE ) {
-                        $errors[] = 'File Not Found (404): <b>' . $instrument_name . '</b>';
+                        $errors[] = 'File Not Found (404): <b>' . $file['name'] . '</b>';
                     }
 
 
                 } // foreach file
 
-
-                // $output .= '</ul>';
 
 
                 // NO ERRORS or WARNINGS?
@@ -302,9 +300,6 @@ function musicdistro_error_check() {
             // Close Arrangement Wrap
             $output .= '</div>';
 
-
-            // Add Divider
-            $output .= '<hr>';
 
         } // foreach: arrangements as arrangement
 
